@@ -185,6 +185,7 @@
       cursor: pointer;
       appearance: none;
       touch-action: manipulation;
+      overflow: hidden;
     }
 
     .floor-zone::before {
@@ -192,7 +193,8 @@
       position: absolute;
       inset: 0;
       background: transparent;
-      border: 0;
+      border-top: 1px solid rgba(255,255,255,.10);
+      border-bottom: 1px solid rgba(255,255,255,.08);
       transition: background .28s ease, box-shadow .28s ease, backdrop-filter .28s ease;
       backdrop-filter: brightness(1);
     }
@@ -200,9 +202,9 @@
     .floor-zone:hover::before,
     .floor-zone.is-active::before,
     .floor-zone:active::before {
-      background: var(--red);
-      box-shadow: 0 0 44px var(--red-strong), inset 0 0 30px rgba(255,255,255,.10);
-      backdrop-filter: brightness(1.22);
+      background: linear-gradient(180deg, rgba(255,70,70,.30) 0%, rgba(255,70,70,.24) 100%);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.10);
+      backdrop-filter: brightness(1.16);
     }
 
     .floor-label {
@@ -245,6 +247,14 @@
       backdrop-filter: blur(22px) saturate(140%);
       -webkit-backdrop-filter: blur(22px) saturate(140%);
       overflow: hidden;
+      transition: opacity .35s ease, transform .35s ease;
+    }
+
+    .hero:has(.floor-zone:hover) .visual-card,
+    .hero:has(.floor-zone.is-active) .visual-card {
+      opacity: 0;
+      transform: translateX(-30px);
+      pointer-events: none;
     }
 
     .card-line {
@@ -435,12 +445,12 @@
         height: 52px;
         font-size: 11px;
       }
-      .floor-zone[data-floor="6"] { --y: 0%; --h: 16%; }
-      .floor-zone[data-floor="5"] { --y: 16%; --h: 14%; }
-      .floor-zone[data-floor="4"] { --y: 30%; --h: 14%; }
-      .floor-zone[data-floor="3"] { --y: 44%; --h: 14%; }
-      .floor-zone[data-floor="2"] { --y: 58%; --h: 14%; }
-      .floor-zone[data-floor="1"] { --y: 72%; --h: 28%; }
+      .floor-zone[data-floor="5"] { --y: 0%; --h: 17.2%; }
+      .floor-zone[data-floor="4"] { --y: 17.2%; --h: 14.4%; }
+      .floor-zone[data-floor="3"] { --y: 31.6%; --h: 14.4%; }
+      .floor-zone[data-floor="2"] { --y: 46%; --h: 14.4%; }
+      .floor-zone[data-floor="1"] { --y: 60.4%; --h: 14.4%; }
+      .floor-zone[data-floor="0"] { --y: 74.8%; --h: 25.2%; }
       .floor-label {
         right: auto;
         left: 50%;
@@ -480,12 +490,12 @@
           <img class="building-img" src="https://raw.githubusercontent.com/oczernyszenko/Torrevieja/main/fasad.png" alt="Monteagudo — новый жилой проект на Коста-Бланке" loading="eager" fetchpriority="high" />
 
           <div class="floor-map" aria-label="Выбор этажа на фасаде">
-            <button class="floor-zone" data-floor="6" style="--x: 0%; --y: 0%; --w: 100%; --h: 16%;"><span class="floor-label">Пентхаусы</span></button>
-            <button class="floor-zone" data-floor="5" style="--x: 0%; --y: 16%; --w: 100%; --h: 14%;"><span class="floor-label">Этаж 5</span></button>
-            <button class="floor-zone" data-floor="4" style="--x: 0%; --y: 30%; --w: 100%; --h: 14%;"><span class="floor-label">Этаж 4</span></button>
-            <button class="floor-zone" data-floor="3" style="--x: 0%; --y: 44%; --w: 100%; --h: 14%;"><span class="floor-label">Этаж 3</span></button>
-            <button class="floor-zone" data-floor="2" style="--x: 0%; --y: 58%; --w: 100%; --h: 14%;"><span class="floor-label">Этаж 2</span></button>
-            <button class="floor-zone" data-floor="1" style="--x: 0%; --y: 72%; --w: 100%; --h: 28%;"><span class="floor-label">Bajo</span></button>
+            <button class="floor-zone" data-floor="0" style="--x:0%;--y:74.8%;--w:100%;--h:25.2%;"><span class="floor-label">Bajo</span></button>
+            <button class="floor-zone" data-floor="1" style="--x:0%;--y:60.4%;--w:100%;--h:14.4%;"><span class="floor-label">Этаж 1</span></button>
+            <button class="floor-zone" data-floor="2" style="--x:0%;--y:46%;--w:100%;--h:14.4%;"><span class="floor-label">Этаж 2</span></button>
+            <button class="floor-zone" data-floor="3" style="--x:0%;--y:31.6%;--w:100%;--h:14.4%;"><span class="floor-label">Этаж 3</span></button>
+            <button class="floor-zone" data-floor="4" style="--x:0%;--y:17.2%;--w:100%;--h:14.4%;"><span class="floor-label">Этаж 4</span></button>
+            <button class="floor-zone" data-floor="5" style="--x:0%;--y:0%;--w:100%;--h:17.2%;"><span class="floor-label">Пентхаус</span></button>
           </div>
         </div>
       </div>
@@ -537,7 +547,7 @@
         });
       });
 
-      console.assert(zones.length === 6, 'Должно быть 6 зон этажей');
+      console.assert(zones.length === 6, 'Должно быть 6 зон этажей включая Bajo');
       console.assert(rows.length === 5, 'Должно быть 5 строк квартир');
       console.assert(Boolean(apartmentsSection), 'Секция apartments должна существовать');
     });
