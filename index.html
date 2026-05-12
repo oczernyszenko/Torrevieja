@@ -7,6 +7,9 @@
   <meta name="description" content="Интерактивный выбор этажа и апартаментов Monteagudo на Коста-Бланке." />
   <meta name="robots" content="index,follow,max-image-preview:large" />
   <meta name="theme-color" content="#111111" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
   <style>
     :root {
@@ -24,7 +27,7 @@
 
     body {
       margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
+      font-family: 'Inter', Arial, Helvetica, sans-serif;
       background: var(--black);
       color: var(--text);
     }
@@ -58,7 +61,8 @@
       font-size: 22px;
       letter-spacing: .42em;
       white-space: nowrap;
-      font-weight: 500;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
     }
 
     .nav {
@@ -101,8 +105,21 @@
       position: relative;
       min-height: 100vh;
       padding-top: 76px;
-      background: radial-gradient(circle at 52% 38%, #666d78 0%, #4f5661 34%, #3b3f46 68%, #2d3138 100%);
+      background:
+        radial-gradient(circle at 50% 0%, rgba(255,188,220,.30) 0%, rgba(255,188,220,.12) 18%, transparent 42%),
+        radial-gradient(circle at 18% 40%, rgba(255,170,205,.14) 0%, transparent 48%),
+        radial-gradient(circle at 52% 38%, #666d78 0%, #4f5661 34%, #3b3f46 68%, #2d3138 100%);
       overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 88px 0 auto 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(255,190,220,.9), transparent);
+      z-index: 6;
+      pointer-events: none;
     }
 
     .building-stage {
@@ -129,35 +146,48 @@
     .building-wrap:hover {
       transform: scale(1.08) translateX(24px);
       z-index: 30;
+      filter: drop-shadow(0 0 36px rgba(255,185,215,.22));
     }
 
     .visual-card {
       position: absolute;
       left: clamp(42px, 10vw, 190px);
-      top: 24vh;
+      top: 20vh;
       z-index: 20;
-      width: min(560px, 42vw);
+      width: min(620px, 44vw);
       min-height: 330px;
-      padding: 0;
-      background: transparent !important;
-      border: 0 !important;
-      border-radius: 0 !important;
-      box-shadow: none !important;
-      backdrop-filter: none !important;
-      transition: transform .55s ease, opacity .55s ease;
+      padding: 42px 42px 38px;
+      background: linear-gradient(90deg, rgba(255,245,248,.16) 0%, rgba(255,255,255,.06) 45%, rgba(255,255,255,.02) 100%);
+      border: 1px solid rgba(255,220,230,.18);
+      border-radius: 34px;
+      box-shadow: 0 20px 80px rgba(255,185,215,.12);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      transition: transform .55s ease, opacity .55s ease, background .4s ease;
       will-change: transform;
+      overflow: hidden;
+    }
+
+    .visual-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(255,255,255,.18) 0%, rgba(255,255,255,.05) 42%, rgba(255,255,255,0) 100%);
+      pointer-events: none;
     }
 
     .hero:has(.building-wrap:hover) .visual-card {
-      transform: translateX(-110px);
-      opacity: .72;
+      transform: translateX(-90px);
+      opacity: .96;
+      background: linear-gradient(90deg, rgba(255,245,248,.22) 0%, rgba(255,255,255,.08) 45%, rgba(255,255,255,.03) 100%);
     }
 
     .card-line {
-      width: 56px;
-      height: 3px;
-      background: #ffffff;
-      margin-bottom: 36px;
+      width: 78px;
+      height: 4px;
+      background: rgba(255,255,255,.92);
+      margin-bottom: 34px;
+      border-radius: 999px;
     }
 
     .kicker {
@@ -171,11 +201,14 @@
 
     h1 {
       margin: 0 0 22px;
-      font-size: clamp(68px, 7vw, 120px);
-      line-height: .86;
-      letter-spacing: -.08em;
+      font-size: clamp(76px, 8vw, 128px);
+      line-height: .82;
+      letter-spacing: -.09em;
       color: #ffffff;
       max-width: 5ch;
+      text-shadow: 0 4px 24px rgba(255,185,215,.12);
+      font-family: 'Inter', sans-serif;
+      font-weight: 900;
     }
 
     .lead {
@@ -185,6 +218,7 @@
       line-height: 1.45;
       color: rgba(255,255,255,.82);
       font-weight: 500;
+      font-family: 'Inter', sans-serif;
     }
 
     .card-actions {
@@ -197,27 +231,28 @@
     .btn {
       min-width: 190px;
       height: 62px;
-      border-radius: 7px;
+      border-radius: 10px;
       border: 1px solid rgba(255,255,255,.38);
       display: inline-flex;
       align-items: center;
       justify-content: center;
       padding: 0 24px;
       text-transform: uppercase;
-      letter-spacing: .1em;
-      font-size: 13px;
+      letter-spacing: .12em;
+      font-size: 12px;
       font-weight: 800;
       cursor: pointer;
       background: rgba(120,128,142,.16);
       color: #ffffff;
       backdrop-filter: blur(8px);
+      font-family: 'Inter', sans-serif;
     }
 
     .btn-dark {
-      background: rgba(120,128,142,.22);
+      background: linear-gradient(180deg, rgba(255,205,225,.22) 0%, rgba(255,185,215,.14) 100%);
       color: #fff;
-      border-color: rgba(255,255,255,.52);
-      box-shadow: none;
+      border-color: rgba(255,220,230,.52);
+      box-shadow: 0 10px 30px rgba(255,185,215,.16);
     }
 
     .floor-info {
@@ -225,14 +260,15 @@
       right: clamp(28px, 4vw, 70px);
       bottom: 48px;
       z-index: 25;
-      min-width: 260px;
-      padding: 22px 24px;
-      background: rgba(255,255,255,.18);
+      min-width: 280px;
+      padding: 24px 26px;
+      background: linear-gradient(180deg, rgba(255,245,248,.18) 0%, rgba(255,255,255,.08) 100%);
       color: #fff;
-      border: 1px solid rgba(255,255,255,.22);
-      border-radius: 20px;
-      backdrop-filter: blur(10px);
-      box-shadow: none;
+      border: 1px solid rgba(255,220,230,.18);
+      border-radius: 26px;
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      box-shadow: 0 18px 60px rgba(255,185,215,.10);
       transition: transform .45s ease, opacity .45s ease;
     }
 
@@ -319,6 +355,139 @@
     }
 
     @media (max-width: 700px) {
+      .topbar {
+        height: 64px;
+        grid-template-columns: 1fr auto;
+        padding: 0 16px;
+      }
+
+      .brand {
+        font-size: 12px;
+        letter-spacing: .28em;
+      }
+
+      .hero {
+        min-height: 100svh;
+        padding-top: 64px;
+      }
+
+      .building-stage {
+        inset: 64px 0 0;
+        align-items: flex-end;
+      }
+
+      .building-wrap {
+        width: 120vw;
+        height: 56vh;
+        opacity: .94;
+      }
+
+      .visual-card {
+        top: 82px;
+        left: 14px;
+        right: 14px;
+        width: auto;
+        padding: 26px 22px 24px;
+        border-radius: 26px;
+        background: linear-gradient(180deg, rgba(255,245,248,.16) 0%, rgba(255,255,255,.05) 100%) !important;
+        border: 1px solid rgba(255,220,230,.16) !important;
+        backdrop-filter: blur(14px);
+      }
+
+      .card-line {
+        width: 44px;
+        height: 3px;
+        margin-bottom: 18px;
+      }
+
+      .kicker {
+        font-size: 10px;
+        letter-spacing: .14em;
+        margin-bottom: 10px;
+      }
+
+      h1 {
+        font-size: clamp(46px, 14vw, 68px);
+        line-height: .9;
+        letter-spacing: -.07em;
+        margin-bottom: 16px;
+      }
+
+      .lead {
+        font-size: 15px;
+        line-height: 1.55;
+      }
+
+      .card-actions {
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 24px;
+      }
+
+      .btn {
+        width: 100%;
+        min-width: 100%;
+        height: 52px;
+        font-size: 11px;
+      }
+
+      .floor-info {
+        display: none;
+      }
+
+      .floor-map {
+        display: none;
+      }
+
+      .hero::before {
+        inset: 64px 0 auto 0;
+      }
+
+      .hero:has(.building-wrap:hover) .visual-card {
+        transform: none;
+        opacity: 1;
+      }
+
+      .visual-card {
+        z-index: 40;
+      }
+
+      .kicker {
+        font-size: 11px;
+        letter-spacing: .16em;
+      }
+
+      h1 {
+        font-size: clamp(42px, 13vw, 72px);
+        line-height: .92;
+        max-width: 100%;
+      }
+
+      .lead {
+        max-width: 100%;
+        font-size: 15px;
+        line-height: 1.6;
+      }
+
+      .card-line {
+        width: 42px;
+        margin-bottom: 22px;
+      }
+
+      .card-actions {
+        gap: 10px;
+      }
+
+      .btn {
+        height: 54px;
+        font-size: 11px;
+        letter-spacing: .08em;
+      }
+
+      .building-wrap:hover {
+        transform: scale(1.03);
+      }
+
       .topbar { height: 64px; }
       .brand { font-size: 14px; letter-spacing: .32em; }
       .hero { padding-top: 64px; min-height: 100svh; }
