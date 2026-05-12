@@ -86,39 +86,58 @@
       min-height:100svh;
       position:relative;
       display:grid;
-      place-items:end start;
-      padding:130px clamp(22px,6vw,88px) 74px;
+      grid-template-columns:48% 52%;
+      align-items:stretch;
+      padding:0;
       color:#fff;
       overflow:hidden;
-      background:#111;
+      background:var(--dark);
     }
 
     .hero::before{
       content:"";
       position:absolute;
-      inset:0;
+      left:0;
+      top:0;
+      bottom:0;
+      width:52%;
       background:
-        linear-gradient(90deg,rgba(0,0,0,.58),rgba(0,0,0,.18),rgba(0,0,0,.05)),
-        linear-gradient(0deg,rgba(0,0,0,.48),rgba(0,0,0,0) 52%);
+        radial-gradient(circle at 20% 30%,rgba(255,255,255,.08),transparent 34%),
+        linear-gradient(90deg,#171512 0%,#171512 70%,rgba(23,21,18,.75) 100%);
       z-index:1;
     }
 
-    .hero img{
+    .hero::after{
+      content:"";
       position:absolute;
       inset:0;
+      background:linear-gradient(90deg,rgba(0,0,0,0) 0%,rgba(0,0,0,.08) 48%,rgba(0,0,0,.16) 100%);
+      z-index:2;
+      pointer-events:none;
+    }
+
+    .hero img{
+      position:relative;
+      z-index:0;
+      grid-column:2;
       width:100%;
-      height:100%;
+      height:100svh;
       object-fit:cover;
-      transform:scale(1.06);
-      animation:heroZoom 12s var(--ease) forwards;
+      object-position:center top;
+      transform:scale(1.02);
+      animation:heroZoom 10s var(--ease) forwards;
     }
 
     @keyframes heroZoom{to{transform:scale(1)}}
 
     .hero-content{
-      position:relative;
-      z-index:2;
-      max-width:780px;
+      position:absolute;
+      z-index:3;
+      left:clamp(28px,7vw,150px);
+      top:50%;
+      transform:translateY(-42%);
+      max-width:520px;
+      padding-right:28px;
     }
 
     .eyebrow{
@@ -136,9 +155,11 @@
     }
 
     h1{
-      font-size:clamp(58px,10vw,132px);
-      line-height:.88;
-      margin-bottom:24px;
+      font-size:clamp(46px,5.3vw,86px);
+      line-height:1.02;
+      margin-bottom:28px;
+      font-style:italic;
+      letter-spacing:.055em;
     }
 
     .hero-text{
@@ -239,10 +260,12 @@
     .stack{display:grid;gap:24px}
 
     .floors{
-      display:grid;
-      grid-template-columns:1fr .9fr;
-      gap:48px;
+      position:relative;
+      display:flex;
       align-items:center;
+      justify-content:center;
+      min-height:100svh;
+      padding:140px 0 80px;
     }
 
     .building{
@@ -254,39 +277,48 @@
     }
 
     .building img{width:100%;height:680px;object-fit:cover}
-    .floor-hotspot{
-      position:absolute;
-      border:1px solid rgba(255,255,255,.5);
-      background:rgba(255,255,255,.09);
-      backdrop-filter:blur(3px);
-      cursor:pointer;
-      transition:.25s var(--ease);
+    .tower-building{
+      width:min(760px,52vw);
+      margin-inline:auto;
     }
-    .floor-hotspot:hover,.floor-hotspot.active{
-      background:rgba(183,154,99,.42);
-      border-color:rgba(255,255,255,.9);
+    .tower-building img{
+      height:920px;
+      object-position:center top;
+      filter:drop-shadow(0 40px 80px rgba(0,0,0,.45));
     }
-    .tower-building img{height:820px;object-position:center center}
     .tower-floor{left:29%;right:26%;height:5.2%;border-radius:6px}
     .f12{top:8.8%}.f11{top:14.4%}.f10{top:20%}.f9{top:25.6%}.f8{top:31.2%}.f7{top:36.8%}.f6{top:42.4%}.f5{top:48%}.f4{top:53.6%}.f3{top:59.2%}.f2{top:66.2%}.f1{top:73.2%}
 
     .plan-panel{
-      background:#fff;
+      position:absolute;
+      left:max(32px,6vw);
+      top:50%;
+      transform:translateY(-50%);
+      width:min(520px,38vw);
+      z-index:10;
+      background:rgba(255,255,255,.82);
       border:1px solid var(--line);
       border-radius:var(--radius);
       padding:28px;
       box-shadow:0 24px 70px rgba(0,0,0,.08);
     }
     .plan-panel img{
-      width:100%;
-      aspect-ratio:4/3;
-      object-fit:cover;
-      border-radius:20px;
-      background:var(--soft);
-      margin-bottom:24px;
+      display:none;
     }
-    .plan-title{font-family:Georgia,serif;font-size:34px;margin-bottom:8px}
-    .plan-meta{color:var(--muted);margin-bottom:22px}
+    .plan-title{
+      font-family:Georgia,serif;
+      font-size:62px;
+      line-height:.92;
+      margin-bottom:18px;
+      color:#1a1714;
+    }
+    .plan-meta{
+      color:#5f5851;
+      margin-bottom:34px;
+      font-size:20px;
+      line-height:1.45;
+      max-width:380px;
+    }
     .plan-list{display:grid;gap:10px;color:var(--muted)}
     .plan-list div{display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:10px}
 
@@ -307,6 +339,141 @@
     .gallery-grid img:nth-child(4){margin-top:32px}
     .gallery-grid img:hover{transform:translateY(-8px)}
 
+    .floor-hotspot{
+      position:absolute;
+      border:1px solid rgba(255,255,255,.5);
+      background:rgba(255,255,255,.08);
+      backdrop-filter:blur(3px);
+      cursor:pointer;
+      transition:.25s var(--ease);
+    }
+    .floor-hotspot:hover,.floor-hotspot.active{
+      background:rgba(183,154,99,.44);
+      border-color:rgba(255,255,255,.92);
+      box-shadow:0 0 0 1px rgba(183,154,99,.25);
+    }
+
+    .view-tabs{
+      display:flex;
+      flex-wrap:wrap;
+      gap:14px;
+      margin:42px 0 0;
+    }
+    .view-tab{
+      border:1px solid rgba(0,0,0,.2);
+      min-height:64px;
+      padding:0 28px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:16px;
+      font-size:13px;
+      font-weight:600;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      background:#fff;
+      transition:.3s var(--ease);
+    }
+    .view-tab.active,.view-tab:hover{background:var(--dark);color:#fff;border-color:var(--dark)}
+
+    .floor-labels{
+      display:none;
+    }
+    .floor-labels span{
+      display:flex;
+      justify-content:space-between;
+      border-bottom:1px solid var(--line);
+      padding-bottom:9px;
+    }
+
+    .filters{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:14px;
+      margin:42px 0 28px;
+    }
+    .filter-box{
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.48);
+      border-radius:20px;
+      padding:18px;
+    }
+    .filter-box small{
+      display:block;
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:.16em;
+      font-size:11px;
+      margin-bottom:9px;
+    }
+    .filter-box strong{font-family:Georgia,serif;font-size:24px;font-weight:400}
+
+    .apartments-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:18px;
+    }
+    .apartment-card{
+      display:grid;
+      gap:14px;
+      border:1px solid var(--line);
+      background:#fff;
+      border-radius:24px;
+      padding:20px;
+      transition:.35s var(--ease);
+    }
+    .apartment-card:hover{transform:translateY(-4px);box-shadow:0 24px 60px rgba(0,0,0,.08)}
+    .status{
+      width:max-content;
+      border-radius:999px;
+      padding:7px 11px;
+      font-size:11px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      background:rgba(183,154,99,.16);
+      color:#7c6332;
+    }
+    .status.sold{background:rgba(28,26,23,.08);color:var(--muted)}
+    .apartment-card h3{font-size:30px;letter-spacing:-.03em}
+    .apt-meta{display:grid;gap:8px;color:var(--muted);font-size:14px}
+    .apt-meta div{display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:8px}
+
+    .gallery-page{background:#f7f4ef;color:var(--text)}
+    .gallery-head{
+      display:grid;
+      grid-template-columns:1fr .8fr;
+      gap:70px;
+      align-items:end;
+      margin-bottom:64px;
+    }
+    .gallery-group{margin-top:64px}
+    .gallery-group-title{
+      display:flex;
+      justify-content:space-between;
+      align-items:end;
+      gap:24px;
+      margin-bottom:22px;
+      border-bottom:1px solid var(--line);
+      padding-bottom:16px;
+    }
+    .gallery-group-title h3{font-size:36px}
+    .gallery-group-title span{color:var(--muted);font-size:13px;text-transform:uppercase;letter-spacing:.14em}
+    .gallery-mosaic{
+      display:grid;
+      grid-template-columns:1.2fr .8fr .8fr;
+      gap:18px;
+    }
+    .gallery-mosaic img{
+      width:100%;
+      height:360px;
+      object-fit:cover;
+      border-radius:24px;
+      cursor:pointer;
+      transition:.5s var(--ease);
+    }
+    .gallery-mosaic img:first-child{grid-row:span 2;height:738px}
+    .gallery-mosaic img:hover{transform:translateY(-5px);filter:saturate(1.05)}
+
     .contact{
       min-height:80vh;
       display:grid;
@@ -314,7 +481,7 @@
       text-align:center;
       background:
         linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.55)),
-        url('https://raw.githubusercontent.com/oczernyszenko/Costa-Blanca-Invest/main/pl/new-developments/monteagudo/5.jpg') center/cover;
+        url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1800&auto=format&fit=crop') center/cover;
       color:#fff;
     }
     .contact h2{max-width:780px;margin-inline:auto}
@@ -327,28 +494,49 @@
     }
     .reveal.visible{opacity:1;transform:none}
 
+    @media(max-width:1200px){
+      .plan-panel{width:min(460px,44vw);left:28px}
+      .plan-title{font-size:52px}
+      .tower-building{width:min(700px,58vw)}
+    }
+
     @media(max-width:900px){
       .links{display:none}
-      .intro,.lifestyle-grid,.floors{grid-template-columns:1fr;gap:38px}
+      .intro,.lifestyle-grid{grid-template-columns:1fr;gap:38px}
+      .floors{display:block;padding-top:120px}
       .stats{grid-template-columns:1fr}
       .gallery-grid{grid-template-columns:1fr 1fr}
       .gallery-grid img{height:240px;margin-top:0!important}
       .building img{height:520px}
-      .tower-building img{height:680px}
+      .tower-building{width:100%}
+      .tower-building img{height:620px}
       .tower-floor{left:24%;right:21%;height:5.3%}
+      .filters{grid-template-columns:1fr 1fr}
+      .apartments-grid{grid-template-columns:1fr 1fr}
+      .gallery-head{grid-template-columns:1fr;gap:24px}
+      .gallery-mosaic{grid-template-columns:1fr 1fr}
+      .gallery-mosaic img,.gallery-mosaic img:first-child{height:300px;grid-row:auto}
       section{padding:82px 22px}
-      .hero{padding:120px 22px 58px}
+      .hero{grid-template-columns:1fr;min-height:100svh;padding:0}
+      .hero::before{width:100%;background:linear-gradient(90deg,rgba(23,21,18,.92),rgba(23,21,18,.62))}
+      .hero img{grid-column:1;height:100svh;opacity:.72;object-position:center top}
+      .hero-content{left:22px;right:22px;top:auto;bottom:56px;transform:none;max-width:620px}
+      .plan-panel{position:relative;left:auto;top:auto;transform:none;width:100%;margin-bottom:28px}
+      .plan-title{font-size:44px}
     }
 
     @media(max-width:560px){
-      h1{font-size:56px}
+      h1{font-size:44px}
       h2{font-size:42px}
       .gallery-grid{grid-template-columns:1fr}
       .image-card,.image-card.small{min-height:340px}
       .building img{height:430px}
+      .tower-building img{height:520px}
       .tower-building img{height:560px}
       .floor-hotspot{left:7%;right:7%}
       .tower-floor{left:20%;right:17%;height:5.1%}
+      .filters,.apartments-grid,.gallery-mosaic{grid-template-columns:1fr}
+      .gallery-mosaic img,.gallery-mosaic img:first-child{height:280px}
     }
   </style>
 </head>
@@ -366,14 +554,14 @@
 
   <main id="top">
     <section class="hero">
-      <img src="https://raw.githubusercontent.com/oczernyszenko/Costa-Blanca-Invest/main/pl/new-developments/monteagudo/1.jpg" alt="Monteagudo exterior" />
+      <img src="https://raw.githubusercontent.com/oczernyszenko/Costa-Blanca-Invest/main/pl/new-developments/monteagudo/1.jpg" alt="Luxury residence exterior" />
       <div class="hero-content reveal visible">
-        <div class="eyebrow">Torrevieja · Costa Blanca</div>
-        <h1>Monteagudo</h1>
-        <p class="hero-text">Архитектура света и воды. Уникальный жилой комплекс в сердце Торревьехи с панорамным остеклением, современными апартаментами и атмосферой Mediterranean lifestyle.</p>
+        <div class="eyebrow">Benidorm · Costa Blanca</div>
+        <h1>Monteagudo Residences</h1>
+        <p class="hero-text">A cinematic presentation concept inspired by Monteagudo — vertical architecture, sea views, glass façades and premium Costa Blanca living.</p>
         <div class="hero-actions">
-          <a href="#concept" class="btn primary">Узнать больше</a>
-          <a href="#gallery" class="btn">Смотреть фото</a>
+          <a href="#concept" class="btn primary">Discover</a>
+          <a href="#contact" class="btn">Request details</a>
         </div>
       </div>
     </section>
@@ -382,40 +570,40 @@
       <div class="wrap intro reveal">
         <div>
           <div class="section-label">The concept</div>
-          <h2>A contemporary tower concept inspired by Monteagudo and Costa Blanca urban living.</h2>
+          <h2>A contemporary tower concept inspired by the Monteagudo project and the new skyline of Costa Blanca.</h2>
         </div>
         <div>
-          <p class="lead">The project is presented as a vertical luxury residence: clear rhythm, large visuals, premium navigation and an interactive floor selector.</p>
+          <p class="lead">The project is presented as a vertical luxury residence: clear rhythm, large visuals, premium navigation and an interactive tower selector.</p>
           <p class="text" style="margin-top:22px">This concept can be adapted for apartment towers, branded residences, new developments, hotel residences or investment presentations.</p>
         </div>
       </div>
 
       <div class="wrap stats reveal">
-        <div class="stat"><strong>36</strong><span>Apartments</span></div>
-        <div class="stat"><strong>111k</strong><span>From €</span></div>
-        <div class="stat"><strong>100%</strong><span>Legal clarity</span></div>
+        <div class="stat"><strong>32</strong><span>Floors</span></div>
+        <div class="stat"><strong>148</strong><span>Residences</span></div>
+        <div class="stat"><strong>2027</strong><span>Delivery</span></div>
       </div>
     </section>
 
     <section class="dark" id="lifestyle">
       <div class="wrap reveal">
         <div class="section-label">Lifestyle</div>
-        <h2>A residence built around light, city comfort and Mediterranean rhythm.</h2>
+        <h2>A tower experience built around height, light and panoramic views.</h2>
         <p class="lead">The presentation feels like a developer sales suite: elegant, visual, calm and easy to understand.</p>
 
         <div class="lifestyle-grid">
           <div class="image-card">
-            <img src="https://raw.githubusercontent.com/oczernyszenko/Costa-Blanca-Invest/main/pl/new-developments/monteagudo/2.jpg" alt="Monteagudo image 2" />
-            <span>Architecture</span>
+            <img src="https://raw.githubusercontent.com/oczernyszenko/Costa-Blanca-Invest/main/pl/new-developments/monteagudo/2.jpg" alt="Interior" />
+            <span>Interior calm</span>
           </div>
           <div class="stack">
             <div class="image-card small">
-              <img src="https://raw.githubusercontent.com/oczernyszenko/Costa-Blanca-Invest/main/pl/new-developments/monteagudo/3.jpg" alt="Monteagudo image 3" />
-              <span>Terraces</span>
+              <img src="https://raw.githubusercontent.com/oczernyszenko/Costa-Blanca-Invest/main/pl/new-developments/monteagudo/3.jpg" alt="Terrace" />
+              <span>Private terrace</span>
             </div>
             <div class="image-card small">
-              <img src="https://raw.githubusercontent.com/oczernyszenko/Costa-Blanca-Invest/main/pl/new-developments/monteagudo/4.jpg" alt="Monteagudo image 4" />
-              <span>Interiors</span>
+              <img src="https://raw.githubusercontent.com/oczernyszenko/Costa-Blanca-Invest/main/pl/new-developments/monteagudo/4.jpg" alt="Living room" />
+              <span>Warm materials</span>
             </div>
           </div>
         </div>
@@ -423,47 +611,93 @@
     </section>
 
     <section id="floors">
-      <div class="wrap floors reveal">
+      
+
+      <div class="wrap floors reveal" id="visual-choice">
         <div class="building tower-building">
-          <img src="https://raw.githubusercontent.com/oczernyszenko/Costa-Blanca-Invest/main/pl/new-developments/monteagudo/1.jpg" alt="Monteagudo tower facade" />
-          <button class="floor-hotspot tower-floor f12 active" data-floor="Penthouse levels" data-area="Premium units" data-price="on request" data-bed="Top floor"></button>
-          <button class="floor-hotspot tower-floor f11" data-floor="Upper residences" data-area="Apartments" data-price="from €111,000" data-bed="Available units"></button>
-          <button class="floor-hotspot tower-floor f10" data-floor="Upper residences" data-area="Apartments" data-price="from €111,000" data-bed="Available units"></button>
-          <button class="floor-hotspot tower-floor f9" data-floor="Middle residences" data-area="Apartments" data-price="from €111,000" data-bed="Available units"></button>
-          <button class="floor-hotspot tower-floor f8" data-floor="Middle residences" data-area="Apartments" data-price="from €111,000" data-bed="Available units"></button>
-          <button class="floor-hotspot tower-floor f7" data-floor="Middle residences" data-area="Apartments" data-price="from €111,000" data-bed="Available units"></button>
-          <button class="floor-hotspot tower-floor f6" data-floor="Lower residences" data-area="Apartments" data-price="from €111,000" data-bed="Available units"></button>
-          <button class="floor-hotspot tower-floor f5" data-floor="Lower residences" data-area="Apartments" data-price="from €111,000" data-bed="Available units"></button>
-          <button class="floor-hotspot tower-floor f4" data-floor="Lower residences" data-area="Apartments" data-price="from €111,000" data-bed="Available units"></button>
-          <button class="floor-hotspot tower-floor f3" data-floor="Urban view level" data-area="Apartments" data-price="from €111,000" data-bed="Available units"></button>
-          <button class="floor-hotspot tower-floor f2" data-floor="Common areas" data-area="Relax zone" data-price="Residents only" data-bed="Services"></button>
-          <button class="floor-hotspot tower-floor f1" data-floor="Lobby" data-area="Entrance" data-price="Ground level" data-bed="Common area"></button>
+          <img src="https://raw.githubusercontent.com/oczernyszenko/Costa-Blanca-Invest/main/pl/new-developments/monteagudo/1.jpg" alt="Monteagudo facade" />
+          <button class="floor-hotspot tower-floor f12 active" data-floor="Этаж 5" data-area="36.59–31.10 m²" data-price="141.000–229.000 €" data-bed="Студия / 1 спальня"></button>
+          <div style="position:absolute;right:-120px;top:24%;background:#fff;color:#171512;padding:18px 26px;border-radius:14px;font-size:20px;font-weight:600;z-index:20;box-shadow:0 15px 40px rgba(0,0,0,.18)">Этаж 4</div>
+          <button class="floor-hotspot tower-floor f10" data-floor="Этаж 4" data-area="21.14–45.05 m²" data-price="117.000–164.000 €" data-bed="Студия / 1 спальня"></button>
+          <button class="floor-hotspot tower-floor f8" data-floor="Этаж 3" data-area="21.14–45.05 m²" data-price="115.000–161.000 €" data-bed="Студия / 1 спальня"></button>
+          <button class="floor-hotspot tower-floor f6" data-floor="Этаж 2" data-area="21.14–45.05 m²" data-price="113.000–158.000 €" data-bed="Студия / 1 спальня"></button>
+          <button class="floor-hotspot tower-floor f4" data-floor="Этаж 1" data-area="21.14–45.05 m²" data-price="111.000–155.000 €" data-bed="Студия / 1 спальня"></button>
+          <button class="floor-hotspot tower-floor f2" data-floor="Цоколь" data-area="33.75–39.90 m²" data-price="140.000–141.000 €" data-bed="Студия"></button>
         </div>
 
         <aside class="plan-panel">
-          <img id="planImage" src="https://raw.githubusercontent.com/oczernyszenko/Costa-Blanca-Invest/main/pl/new-developments/monteagudo/5.jpg" alt="Floor preview" />
-          <div class="section-label">Interactive selector</div>
-          <div class="plan-title" id="planTitle">Penthouse levels</div>
-          <div class="plan-meta" id="planMeta">Hover a level group on the facade to preview availability.</div>
-          <div class="plan-list">
-            <div><span>Area</span><strong id="planArea">Premium units</strong></div>
-            <div><span>Price</span><strong id="planPrice">on request</strong></div>
-            <div><span>Type</span><strong id="planBed">Top floor</strong></div>
+          <div class="section-label">Навигация</div>
+          <div class="plan-title" id="planTitle">Выбор этажа</div>
+          <div class="plan-meta" id="planMeta">Используйте наведение на здание для просмотра доступности и планировок.</div>
+          <div class="view-tabs">
+            <a class="view-tab active" href="#visual-choice">Визуальный выбор</a>
+            <a class="view-tab" href="#plan-choice">Плановый выбор</a>
+          </div>
+
+          <div class="plan-list" style="margin-top:34px">
+            <div><span>Площадь</span><strong id="planArea">36.59–31.10 m²</strong></div>
+            <div><span>Цена</span><strong id="planPrice">141.000–229.000 €</strong></div>
+            <div><span>Тип</span><strong id="planBed">Студия / 1 спальня</strong></div>
+          </div>
+          <div class="floor-labels">
+            <span><b>Цоколь</b><em>2 квартиры</em></span>
+            <span><b>Этажи 1–4</b><em>7 квартир на этаже</em></span>
+            <span><b>Этаж 5</b><em>6 квартир</em></span>
           </div>
         </aside>
       </div>
+
+      <div class="wrap reveal" id="plan-choice" style="margin-top:110px">
+        <div class="section-label">Plan choice</div>
+        <h2>Плановый выбор</h2>
+        <p class="lead">Фильтры и карточки квартир: этаж, комнаты, площадь, цена, статус.</p>
+
+        <div class="filters">
+          <div class="filter-box"><small>Этаж</small><strong>Все</strong></div>
+          <div class="filter-box"><small>Комнаты</small><strong>Студия / 1</strong></div>
+          <div class="filter-box"><small>Цена</small><strong>111k–229k €</strong></div>
+          <div class="filter-box"><small>Площадь</small><strong>до 50 m²</strong></div>
+        </div>
+
+        <div class="apartments-grid">
+          <article class="apartment-card"><span class="status">Доступно</span><h3>Квартира 1</h3><div class="apt-meta"><div><span>Этаж</span><b>Цоколь</b></div><div><span>Комнаты</span><b>Студия</b></div><div><span>Площадь</span><b>39.90 m²</b></div><div><span>Цена</span><b>141.000 €</b></div></div></article>
+          <article class="apartment-card"><span class="status">Доступно</span><h3>Квартира 2</h3><div class="apt-meta"><div><span>Этаж</span><b>1</b></div><div><span>Комнаты</span><b>Студия</b></div><div><span>Площадь</span><b>27.27 m²</b></div><div><span>Цена</span><b>111.000 €</b></div></div></article>
+          <article class="apartment-card"><span class="status">Доступно</span><h3>Квартира 7</h3><div class="apt-meta"><div><span>Этаж</span><b>1</b></div><div><span>Комнаты</span><b>1</b></div><div><span>Площадь</span><b>45.05 m²</b></div><div><span>Цена</span><b>155.000 €</b></div></div></article>
+          <article class="apartment-card"><span class="status">Доступно</span><h3>Квартира 5</h3><div class="apt-meta"><div><span>Этаж</span><b>4</b></div><div><span>Комнаты</span><b>Студия</b></div><div><span>Площадь</span><b>30.79 m²</b></div><div><span>Цена</span><b>135.000 €</b></div></div></article>
+          <article class="apartment-card"><span class="status">Доступно</span><h3>Квартира 5</h3><div class="apt-meta"><div><span>Этаж</span><b>5</b></div><div><span>Комнаты</span><b>1</b></div><div><span>Площадь</span><b>36.59 m²</b></div><div><span>Цена</span><b>229.000 €</b></div></div></article>
+          <article class="apartment-card"><span class="status sold">Все продано</span><h3>Квартира 2</h3><div class="apt-meta"><div><span>Этаж</span><b>3</b></div><div><span>Комнаты</span><b>Студия</b></div><div><span>Площадь</span><b>27.27 m²</b></div><div><span>Цена</span><b>115.000 €</b></div></div></article>
+        </div>
+      </div>
     </section>
 
-    <section id="gallery" class="dark">
+    <section id="gallery" class="gallery-page">
       <div class="wrap reveal">
-        <div class="section-label">Gallery</div>
-        <h2>A visual story before the client reads the details.</h2>
-        <p class="lead">The page works as a premium sales presentation: emotional first, informational second.</p>
-        <div class="gallery-grid">
-          <img src="https://raw.githubusercontent.com/oczernyszenko/Costa-Blanca-Invest/main/pl/new-developments/monteagudo/2.jpg" alt="Gallery 1" />
-          <img src="https://raw.githubusercontent.com/oczernyszenko/Costa-Blanca-Invest/main/pl/new-developments/monteagudo/3.jpg" alt="Gallery 2" />
-          <img src="https://raw.githubusercontent.com/oczernyszenko/Costa-Blanca-Invest/main/pl/new-developments/monteagudo/4.jpg" alt="Gallery 3" />
-          <img src="https://raw.githubusercontent.com/oczernyszenko/Costa-Blanca-Invest/main/pl/new-developments/monteagudo/5.jpg" alt="Gallery 4" />
+        <div class="gallery-head">
+          <div>
+            <div class="section-label">Gallery</div>
+            <h2>Галерея</h2>
+          </div>
+          <p class="lead">Структура как отдельная gallery page: группы изображений, счётчик фото и крупная мозаика.</p>
+        </div>
+
+        <div class="gallery-group">
+          <div class="gallery-group-title"><h3>Экстерьер и территория</h3><span>5 photos</span></div>
+          <div class="gallery-mosaic">
+            <img src="https://raw.githubusercontent.com/oczernyszenko/Costa-Blanca-Invest/main/pl/new-developments/monteagudo/1.jpg" alt="Monteagudo exterior 1" />
+            <img src="https://raw.githubusercontent.com/oczernyszenko/Costa-Blanca-Invest/main/pl/new-developments/monteagudo/2.jpg" alt="Monteagudo exterior 2" />
+            <img src="https://raw.githubusercontent.com/oczernyszenko/Costa-Blanca-Invest/main/pl/new-developments/monteagudo/3.jpg" alt="Monteagudo exterior 3" />
+            <img src="https://raw.githubusercontent.com/oczernyszenko/Costa-Blanca-Invest/main/pl/new-developments/monteagudo/4.jpg" alt="Monteagudo exterior 4" />
+            <img src="https://raw.githubusercontent.com/oczernyszenko/Costa-Blanca-Invest/main/pl/new-developments/monteagudo/5.jpg" alt="Monteagudo exterior 5" />
+          </div>
+        </div>
+
+        <div class="gallery-group">
+          <div class="gallery-group-title"><h3>Квартиры и планировки</h3><span>preview</span></div>
+          <div class="gallery-mosaic">
+            <img src="https://raw.githubusercontent.com/oczernyszenko/Costa-Blanca-Invest/main/pl/new-developments/monteagudo/5.jpg" alt="Apartment preview 1" />
+            <img src="https://raw.githubusercontent.com/oczernyszenko/Costa-Blanca-Invest/main/pl/new-developments/monteagudo/4.jpg" alt="Apartment preview 2" />
+            <img src="https://raw.githubusercontent.com/oczernyszenko/Costa-Blanca-Invest/main/pl/new-developments/monteagudo/3.jpg" alt="Apartment preview 3" />
+          </div>
         </div>
       </div>
     </section>
@@ -471,9 +705,9 @@
     <section id="contact" class="contact">
       <div class="wrap reveal">
         <div class="section-label">Private presentation</div>
-        <h2>Monteagudo — premium digital presentation</h2>
-        <p class="lead">A luxury landing can be adapted for a developer, apartment complex or investment project.</p>
-        <a href="mailto:olga@a1invest4u.com" class="btn primary">Request details</a>
+        <h2>Ready to turn a project into a premium digital experience?</h2>
+        <p class="lead">A luxury landing can be adapted to a developer, villa, apartment complex or investment project.</p>
+        <a href="mailto:hello@example.com" class="btn primary">Request concept</a>
       </div>
     </section>
   </main>
