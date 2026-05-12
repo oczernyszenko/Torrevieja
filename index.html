@@ -10,7 +10,7 @@
 
   <style>
     :root {
-      --black: #111;
+      --black: #3b3f46;
       --nav: #c9c7c1;
       --panel: rgba(238,238,238,.88);
       --text: #2a2927;
@@ -82,7 +82,7 @@
       position: relative;
       min-height: 100vh;
       padding-top: 76px;
-      background: radial-gradient(circle at 56% 42%, #1c1c1c 0%, #111 48%, #090909 100%);
+      background: radial-gradient(circle at 52% 38%, #666d78 0%, #4f5661 34%, #3b3f46 68%, #2d3138 100%);
       overflow: hidden;
     }
 
@@ -137,16 +137,18 @@
       content: "";
       position: absolute;
       inset: 0;
-      background: transparent;
-      border: 1px solid transparent;
-      transition: background .18s ease, border-color .18s ease, box-shadow .18s ease;
+      background: rgba(197,163,90,0);
+      border: 1px solid rgba(197,163,90,.28);
+      transition: background .18s ease, border-color .18s ease, box-shadow .18s ease, backdrop-filter .18s ease;
+      backdrop-filter: brightness(1);
     }
 
     .floor-zone:hover::before,
     .floor-zone.is-active::before {
-      background: rgba(197,163,90,.25);
-      border-color: rgba(197,163,90,.72);
-      box-shadow: 0 0 26px rgba(197,163,90,.22);
+      background: rgba(255,255,255,.16);
+      border-color: rgba(255,255,255,.78);
+      box-shadow: 0 0 42px rgba(255,255,255,.22);
+      backdrop-filter: brightness(1.28);
     }
 
     .floor-label {
@@ -154,7 +156,7 @@
       right: -86px;
       top: 50%;
       transform: translateY(-50%);
-      background: rgba(17,17,17,.86);
+      background: rgba(72,78,88,.92);
       color: #fff;
       border-radius: 999px;
       padding: 8px 14px;
@@ -175,18 +177,18 @@
       z-index: 20;
       width: min(560px, 42vw);
       min-height: 330px;
-      padding: 48px 48px 46px;
-      background: linear-gradient(105deg, rgba(238,238,238,.92) 0%, rgba(238,238,238,.86) 57%, rgba(255,255,255,.56) 100%);
-      border: 1px solid rgba(255,255,255,.45);
-      border-radius: 28px;
-      box-shadow: 0 34px 90px rgba(0,0,0,.24);
-      backdrop-filter: blur(10px);
+      padding: 0;
+      background: transparent;
+      border: 0;
+      border-radius: 0;
+      box-shadow: none;
+      backdrop-filter: none;
     }
 
     .card-line {
       width: 56px;
       height: 3px;
-      background: #292826;
+      background: #ffffff;
       margin-bottom: 36px;
     }
 
@@ -195,25 +197,26 @@
       font-size: 15px;
       letter-spacing: .22em;
       text-transform: uppercase;
-      color: #76736e;
+      color: rgba(255,255,255,.72);
       font-weight: 700;
     }
 
     h1 {
       margin: 0 0 22px;
-      font-size: clamp(34px, 3vw, 48px);
-      line-height: 1;
-      letter-spacing: -.045em;
-      color: #2a2927;
+      font-size: clamp(68px, 7vw, 120px);
+      line-height: .86;
+      letter-spacing: -.08em;
+      color: #ffffff;
+      max-width: 5ch;
     }
 
     .lead {
-      max-width: 390px;
+      max-width: 520px;
       margin: 0;
-      font-size: 22px;
-      line-height: 1.48;
-      color: #5f5d59;
-      font-weight: 600;
+      font-size: 28px;
+      line-height: 1.45;
+      color: rgba(255,255,255,.82);
+      font-weight: 500;
     }
 
     .card-actions {
@@ -227,7 +230,7 @@
       min-width: 190px;
       height: 62px;
       border-radius: 7px;
-      border: 2px solid #292826;
+      border: 1px solid rgba(255,255,255,.38);
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -237,15 +240,16 @@
       font-size: 13px;
       font-weight: 800;
       cursor: pointer;
-      background: transparent;
-      color: #292826;
+      background: rgba(120,128,142,.16);
+      color: #ffffff;
+      backdrop-filter: blur(8px);
     }
 
     .btn-dark {
-      background: #161514;
+      background: rgba(120,128,142,.22);
       color: #fff;
-      border-color: #161514;
-      box-shadow: 0 18px 34px rgba(0,0,0,.18);
+      border-color: rgba(255,255,255,.52);
+      box-shadow: none;
     }
 
     .floor-info {
@@ -290,7 +294,7 @@
 
     .section {
       padding: 90px clamp(20px, 6vw, 90px);
-      background: #111;
+      background: linear-gradient(180deg, #424852 0%, #2f343c 100%);
       color: #fff;
     }
 
@@ -390,11 +394,11 @@
           />
 
           <div class="floor-map" aria-label="Выбор этажа на фасаде">
-            <button class="floor-zone" data-floor="5" style="--x: 12%; --y: 19%; --w: 78%; --h: 11%;"><span class="floor-label">Этаж 5</span></button>
-            <button class="floor-zone" data-floor="4" style="--x: 12%; --y: 31%; --w: 78%; --h: 11%;"><span class="floor-label">Этаж 4</span></button>
-            <button class="floor-zone" data-floor="3" style="--x: 12%; --y: 43%; --w: 78%; --h: 11%;"><span class="floor-label">Этаж 3</span></button>
-            <button class="floor-zone" data-floor="2" style="--x: 12%; --y: 55%; --w: 78%; --h: 11%;"><span class="floor-label">Этаж 2</span></button>
-            <button class="floor-zone" data-floor="1" style="--x: 12%; --y: 67%; --w: 78%; --h: 11%;"><span class="floor-label">Этаж 1</span></button>
+            <button class="floor-zone" data-floor="5" style="--x: 3%; --y: 17%; --w: 94%; --h: 12%;"><span class="floor-label">Этаж 5</span></button>
+            <button class="floor-zone" data-floor="4" style="--x: 3%; --y: 29%; --w: 94%; --h: 12%;"><span class="floor-label">Этаж 4</span></button>
+            <button class="floor-zone" data-floor="3" style="--x: 3%; --y: 41%; --w: 94%; --h: 12%;"><span class="floor-label">Этаж 3</span></button>
+            <button class="floor-zone" data-floor="2" style="--x: 3%; --y: 53%; --w: 94%; --h: 12%;"><span class="floor-label">Этаж 2</span></button>
+            <button class="floor-zone" data-floor="1" style="--x: 3%; --y: 65%; --w: 94%; --h: 12%;"><span class="floor-label">Этаж 1</span></button>
           </div>
         </div>
       </div>
