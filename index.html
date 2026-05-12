@@ -237,20 +237,20 @@
       width: clamp(480px, 34vw, 570px);
       min-height: 330px;
       padding: 48px 48px 46px;
-      color: var(--text);
-      background: linear-gradient(105deg, rgba(235,235,235,.92) 0%, rgba(238,238,238,.86) 58%, rgba(255,255,255,.60) 100%);
-      border: 1px solid rgba(255,255,255,.42);
+      color: #ffffff;
+      background: linear-gradient(115deg, rgba(255,255,255,.14) 0%, rgba(255,255,255,.10) 38%, rgba(255,255,255,.04) 100%);
+      border: 1px solid rgba(255,255,255,.16);
       border-radius: 28px;
-      box-shadow: 0 32px 90px rgba(0,0,0,.24);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
+      box-shadow: 0 24px 70px rgba(0,0,0,.22);
+      backdrop-filter: blur(22px) saturate(140%);
+      -webkit-backdrop-filter: blur(22px) saturate(140%);
       overflow: hidden;
     }
 
     .card-line {
       width: 58px;
       height: 3px;
-      background: #302f2d;
+      background: rgba(255,255,255,.78);
       margin: 0 0 36px;
     }
 
@@ -260,7 +260,7 @@
       line-height: 1.2;
       letter-spacing: .24em;
       text-transform: uppercase;
-      color: #7d7872;
+      color: rgba(255,255,255,.62);
       font-weight: 700;
     }
 
@@ -269,7 +269,7 @@
       font-size: clamp(54px, 5vw, 76px);
       line-height: .92;
       letter-spacing: -.07em;
-      color: #222220;
+      color: #ffffff;
       font-weight: 800;
       font-family: 'Inter', sans-serif;
       text-rendering: geometricPrecision;
@@ -280,7 +280,7 @@
       margin: 0;
       font-size: 18px;
       line-height: 1.55;
-      color: #66625c;
+      color: rgba(255,255,255,.78);
       font-weight: 500;
       letter-spacing: -.01em;
     }
@@ -296,13 +296,13 @@
       min-width: 190px;
       height: 60px;
       border-radius: 8px;
-      border: 2px solid #292826;
+      border: 1px solid rgba(255,255,255,.34);
       display: inline-flex;
       align-items: center;
       justify-content: center;
       padding: 0 22px;
-      background: transparent;
-      color: #292826;
+      background: rgba(255,255,255,.02);
+      color: #ffffff;
       text-transform: uppercase;
       letter-spacing: .12em;
       font-size: 12px;
@@ -311,9 +311,9 @@
     }
 
     .btn-dark {
-      background: #161514;
+      background: rgba(12,12,12,.82);
       color: #fff;
-      border-color: #161514;
+      border-color: rgba(255,255,255,.08);
       box-shadow: 0 14px 28px rgba(0,0,0,.16);
     }
 
@@ -435,11 +435,12 @@
         height: 52px;
         font-size: 11px;
       }
-      .floor-zone[data-floor="5"] { --y: 19.8%; --h: 4.6%; }
-      .floor-zone[data-floor="4"] { --y: 32.4%; --h: 4.9%; }
-      .floor-zone[data-floor="3"] { --y: 45.1%; --h: 4.9%; }
-      .floor-zone[data-floor="2"] { --y: 57.8%; --h: 4.9%; }
-      .floor-zone[data-floor="1"] { --y: 69.2%; --h: 6.2%; }
+      .floor-zone[data-floor="6"] { --y: 0%; --h: 14.2%; }
+      .floor-zone[data-floor="5"] { --y: 14.2%; --h: 10.9%; }
+      .floor-zone[data-floor="4"] { --y: 25.1%; --h: 10.9%; }
+      .floor-zone[data-floor="3"] { --y: 36%; --h: 10.9%; }
+      .floor-zone[data-floor="2"] { --y: 46.9%; --h: 10.9%; }
+      .floor-zone[data-floor="1"] { --y: 57.8%; --h: 22.2%; }
       .floor-label {
         right: auto;
         left: 50%;
@@ -479,11 +480,12 @@
           <img class="building-img" src="https://raw.githubusercontent.com/oczernyszenko/Torrevieja/main/fasad.png" alt="Monteagudo — новый жилой проект на Коста-Бланке" loading="eager" fetchpriority="high" />
 
           <div class="floor-map" aria-label="Выбор этажа на фасаде">
-            <button class="floor-zone" data-floor="5" style="--x: 1%; --y: 18.6%; --w: 98%; --h: 5.6%;"><span class="floor-label">Этаж 5</span></button>
-            <button class="floor-zone" data-floor="4" style="--x: 1%; --y: 31.4%; --w: 98%; --h: 5.9%;"><span class="floor-label">Этаж 4</span></button>
-            <button class="floor-zone" data-floor="3" style="--x: 1%; --y: 43.9%; --w: 98%; --h: 5.9%;"><span class="floor-label">Этаж 3</span></button>
-            <button class="floor-zone" data-floor="2" style="--x: 1%; --y: 56.2%; --w: 98%; --h: 5.9%;"><span class="floor-label">Этаж 2</span></button>
-            <button class="floor-zone" data-floor="1" style="--x: 1%; --y: 66.9%; --w: 98%; --h: 7.6%;"><span class="floor-label">Этаж 1</span></button>
+            <button class="floor-zone" data-floor="6" style="--x: 1%; --y: 0%; --w: 98%; --h: 14.2%;"><span class="floor-label">Пентхаусы</span></button>
+            <button class="floor-zone" data-floor="5" style="--x: 1%; --y: 14.2%; --w: 98%; --h: 10.9%;"><span class="floor-label">Этаж 5</span></button>
+            <button class="floor-zone" data-floor="4" style="--x: 1%; --y: 25.1%; --w: 98%; --h: 10.9%;"><span class="floor-label">Этаж 4</span></button>
+            <button class="floor-zone" data-floor="3" style="--x: 1%; --y: 36%; --w: 98%; --h: 10.9%;"><span class="floor-label">Этаж 3</span></button>
+            <button class="floor-zone" data-floor="2" style="--x: 1%; --y: 46.9%; --w: 98%; --h: 10.9%;"><span class="floor-label">Этаж 2</span></button>
+            <button class="floor-zone" data-floor="1" style="--x: 1%; --y: 57.8%; --w: 98%; --h: 22.2%;"><span class="floor-label">Bajo</span></button>
           </div>
         </div>
       </div>
@@ -535,7 +537,7 @@
         });
       });
 
-      console.assert(zones.length === 5, 'Должно быть 5 зон этажей');
+      console.assert(zones.length === 6, 'Должно быть 6 зон этажей');
       console.assert(rows.length === 5, 'Должно быть 5 строк квартир');
       console.assert(Boolean(apartmentsSection), 'Секция apartments должна существовать');
     });
