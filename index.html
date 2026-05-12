@@ -1,749 +1,728 @@
+```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Monteagudo Residences — Luxury Tower Presentation</title>
-  <meta name="description" content="Luxury high-rise real estate landing prototype with cinematic hero, anchor navigation, gallery, interactive floor selector and premium contact section." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Costa Blanca Invest — Interactive Building Selector</title>
+  <meta name="description" content="Premium interactive building selector by Costa Blanca Invest." />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <meta name="theme-color" content="#050505" />
+
   <style>
-    :root{
-      --bg:#f4f1eb;
-      --text:#1c1a17;
-      --muted:#7b746b;
-      --line:rgba(28,26,23,.14);
-      --dark:#171512;
-      --gold:#b79a63;
-      --white:#fff;
-      --soft:#ebe5da;
-      --radius:28px;
-      --max:1180px;
-      --ease:cubic-bezier(.22,1,.36,1);
+    :root {
+      --bg: #050505;
+      --panel: #0b0b0b;
+      --text: #ffffff;
+      --muted: rgba(255,255,255,.72);
+      --soft: rgba(255,255,255,.12);
+      --accent: #d8b56d;
+      --accent-soft: rgba(216,181,109,.28);
+      --max: 1240px;
+      --radius: 24px;
     }
 
-    *{box-sizing:border-box;margin:0;padding:0}
-    html{scroll-behavior:smooth}
-    body{
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background:var(--bg);
-      color:var(--text);
-      line-height:1.5;
-      overflow-x:hidden;
+    * {
+      box-sizing: border-box;
     }
 
-    img{display:block;max-width:100%}
-    a{color:inherit;text-decoration:none}
-
-    .nav{
-      position:fixed;
-      top:0;
-      left:0;
-      right:0;
-      z-index:50;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      padding:22px clamp(20px,4vw,58px);
-      color:#fff;
-      transition:.5s var(--ease);
+    html {
+      scroll-behavior: smooth;
     }
 
-    .nav.is-scrolled{
-      background:rgba(244,241,235,.82);
-      backdrop-filter:blur(18px);
-      color:var(--text);
-      border-bottom:1px solid var(--line);
-      padding-top:14px;
-      padding-bottom:14px;
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background: var(--bg);
     }
 
-    .brand{
-      font-family: Georgia, 'Times New Roman', serif;
-      font-size:22px;
-      letter-spacing:.12em;
-      text-transform:uppercase;
+    a {
+      color: inherit;
+      text-decoration: none;
     }
 
-    .links{
-      display:flex;
-      align-items:center;
-      gap:26px;
-      font-size:12px;
-      letter-spacing:.16em;
-      text-transform:uppercase;
+    img {
+      display: block;
+      max-width: 100%;
     }
 
-    .links a{opacity:.85;transition:.3s var(--ease)}
-    .links a:hover{opacity:1;color:var(--gold)}
-
-    .lang{
-      border:1px solid currentColor;
-      border-radius:999px;
-      padding:8px 13px;
-      opacity:.9;
+    .page {
+      min-height: 100vh;
+      background: var(--bg);
     }
 
-    .hero{
-      min-height:100svh;
-      position:relative;
-      display:grid;
-      grid-template-columns:48% 52%;
-      align-items:stretch;
-      padding:0;
-      color:#fff;
-      overflow:hidden;
-      background:var(--dark);
+    .topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px clamp(18px, 4vw, 56px);
+      background: linear-gradient(to bottom, rgba(0,0,0,.72), rgba(0,0,0,0));
+      pointer-events: none;
     }
 
-    .hero::before{
-      content:"";
-      position:absolute;
-      left:0;
-      top:0;
-      bottom:0;
-      width:52%;
+    .brand,
+    .top-actions {
+      pointer-events: auto;
+    }
+
+    .brand {
+      font-size: 13px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .top-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .top-link {
+      padding: 10px 14px;
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 999px;
+      font-size: 13px;
+      color: rgba(255,255,255,.88);
+      backdrop-filter: blur(10px);
+      background: rgba(0,0,0,.18);
+    }
+
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      overflow: hidden;
+      background: #000;
+    }
+
+    .hero-image-wrap {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: stretch;
+      justify-content: center;
+      overflow: hidden;
+      background: #000;
+    }
+
+    .hero-image {
+      width: 100%;
+      height: 100vh;
+      object-fit: cover;
+      object-position: center center;
+      filter: contrast(1.03) saturate(1.02);
+    }
+
+    .hero-vignette {
+      position: absolute;
+      inset: 0;
       background:
-        radial-gradient(circle at 20% 30%,rgba(255,255,255,.08),transparent 34%),
-        linear-gradient(90deg,#171512 0%,#171512 70%,rgba(23,21,18,.75) 100%);
-      z-index:1;
+        linear-gradient(to right, rgba(0,0,0,.82) 0%, rgba(0,0,0,.42) 30%, rgba(0,0,0,.04) 62%, rgba(0,0,0,.42) 100%),
+        linear-gradient(to top, rgba(0,0,0,.72), rgba(0,0,0,0) 48%);
+      pointer-events: none;
     }
 
-    .hero::after{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:linear-gradient(90deg,rgba(0,0,0,0) 0%,rgba(0,0,0,.08) 48%,rgba(0,0,0,.16) 100%);
-      z-index:2;
-      pointer-events:none;
+    .hero-content {
+      position: absolute;
+      left: clamp(20px, 5vw, 72px);
+      bottom: clamp(36px, 8vw, 92px);
+      z-index: 10;
+      width: min(560px, calc(100% - 40px));
+      background: #000;
+      padding: clamp(22px, 4vw, 42px);
+      border-radius: 0;
     }
 
-    .hero img{
-      position:relative;
-      z-index:0;
-      grid-column:2;
-      width:100%;
-      height:100svh;
-      object-fit:cover;
-      object-position:center top;
-      transform:scale(1.02);
-      animation:heroZoom 10s var(--ease) forwards;
+    .eyebrow {
+      margin: 0 0 18px;
+      font-size: 12px;
+      letter-spacing: .26em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 700;
     }
 
-    @keyframes heroZoom{to{transform:scale(1)}}
-
-    .hero-content{
-      position:absolute;
-      z-index:3;
-      left:clamp(28px,7vw,150px);
-      top:50%;
-      transform:translateY(-42%);
-      max-width:520px;
-      padding-right:28px;
+    h1 {
+      margin: 0;
+      font-size: clamp(42px, 7vw, 92px);
+      line-height: .88;
+      letter-spacing: -.06em;
+      max-width: 8ch;
     }
 
-    .eyebrow{
-      font-size:12px;
-      letter-spacing:.25em;
-      text-transform:uppercase;
-      color:rgba(255,255,255,.78);
-      margin-bottom:18px;
+    .hero-lead {
+      margin: 22px 0 0;
+      max-width: 42ch;
+      color: var(--muted);
+      font-size: clamp(16px, 1.6vw, 20px);
+      line-height: 1.55;
     }
 
-    h1,h2,h3{
-      font-family: Georgia, 'Times New Roman', serif;
-      font-weight:400;
-      letter-spacing:-.045em;
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 28px;
     }
 
-    h1{
-      font-size:clamp(46px,5.3vw,86px);
-      line-height:1.02;
-      margin-bottom:28px;
-      font-style:italic;
-      letter-spacing:.055em;
+    .pill {
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 999px;
+      padding: 10px 14px;
+      color: rgba(255,255,255,.9);
+      font-size: 13px;
+      background: rgba(255,255,255,.04);
     }
 
-    .hero-text{
-      max-width:560px;
-      font-size:clamp(18px,2vw,24px);
-      color:rgba(255,255,255,.82);
-      margin-bottom:34px;
+    .floor-map {
+      position: absolute;
+      inset: 0;
+      z-index: 8;
+      pointer-events: none;
     }
 
-    .hero-actions{display:flex;gap:14px;flex-wrap:wrap}
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      min-height:48px;
-      padding:0 24px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.48);
-      font-size:12px;
-      letter-spacing:.16em;
-      text-transform:uppercase;
-      transition:.35s var(--ease);
+    .floor-zone {
+      position: absolute;
+      left: var(--x);
+      top: var(--y);
+      width: var(--w);
+      height: var(--h);
+      pointer-events: auto;
+      cursor: pointer;
+      background: transparent;
+      border: 0;
+      outline: 0;
+      padding: 0;
+      appearance: none;
     }
 
-    .btn.primary{background:#fff;color:var(--text);border-color:#fff}
-    .btn:hover{transform:translateY(-2px);background:var(--gold);border-color:var(--gold);color:#fff}
-
-    section{padding:110px clamp(22px,5vw,72px)}
-    .wrap{max-width:var(--max);margin:0 auto}
-
-    .intro{
-      display:grid;
-      grid-template-columns:1.1fr .9fr;
-      gap:80px;
-      align-items:end;
+    .floor-zone::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: transparent;
+      transition: background .18s ease, box-shadow .18s ease, backdrop-filter .18s ease;
     }
 
-    .section-label{
-      font-size:12px;
-      letter-spacing:.22em;
-      text-transform:uppercase;
-      color:var(--gold);
-      margin-bottom:18px;
+    .floor-zone:hover::before,
+    .floor-zone.is-active::before {
+      background: var(--accent-soft);
+      box-shadow: inset 0 0 0 1px rgba(216,181,109,.48), 0 0 28px rgba(216,181,109,.28);
+      backdrop-filter: brightness(1.15);
     }
 
-    h2{font-size:clamp(42px,6vw,82px);line-height:.96;margin-bottom:24px}
-    .lead{font-size:clamp(20px,2.4vw,30px);line-height:1.32;color:var(--muted)}
-    .text{color:var(--muted);font-size:16px;max-width:640px}
-
-    .stats{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:1px;
-      background:var(--line);
-      border:1px solid var(--line);
-      border-radius:var(--radius);
-      overflow:hidden;
-      margin-top:70px;
+    .floor-label {
+      position: absolute;
+      right: -118px;
+      top: 50%;
+      transform: translateY(-50%);
+      min-width: 96px;
+      padding: 9px 12px;
+      border-radius: 999px;
+      background: rgba(0,0,0,.72);
+      border: 1px solid rgba(255,255,255,.18);
+      color: #fff;
+      font-size: 12px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      opacity: 0;
+      transition: opacity .18s ease, transform .18s ease;
+      pointer-events: none;
+      white-space: nowrap;
     }
 
-    .stat{background:rgba(255,255,255,.38);padding:34px}
-    .stat strong{display:block;font-family:Georgia,serif;font-size:38px;font-weight:400;margin-bottom:8px}
-    .stat span{font-size:12px;text-transform:uppercase;letter-spacing:.16em;color:var(--muted)}
-
-    .dark{
-      background:var(--dark);
-      color:#fff;
-    }
-    .dark .lead,.dark .text{color:rgba(255,255,255,.68)}
-
-    .lifestyle-grid{
-      display:grid;
-      grid-template-columns:1.1fr .9fr;
-      gap:24px;
-      margin-top:54px;
+    .floor-zone:hover .floor-label,
+    .floor-zone.is-active .floor-label {
+      opacity: 1;
+      transform: translateY(-50%) translateX(6px);
     }
 
-    .image-card{
-      position:relative;
-      border-radius:var(--radius);
-      overflow:hidden;
-      min-height:520px;
-      background:#222;
-    }
-    .image-card.small{min-height:248px}
-    .image-card img{width:100%;height:100%;object-fit:cover;transition:1s var(--ease)}
-    .image-card:hover img{transform:scale(1.055)}
-    .image-card span{
-      position:absolute;
-      left:26px;
-      bottom:24px;
-      font-size:13px;
-      letter-spacing:.16em;
-      text-transform:uppercase;
-      color:#fff;
-      z-index:2;
-    }
-    .stack{display:grid;gap:24px}
-
-    .floors{
-      position:relative;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      min-height:100svh;
-      padding:140px 0 80px;
+    .floor-info {
+      position: absolute;
+      right: clamp(18px, 4vw, 56px);
+      bottom: clamp(26px, 5vw, 64px);
+      z-index: 15;
+      width: min(340px, calc(100% - 36px));
+      background: rgba(0,0,0,.78);
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 20px;
+      padding: 20px;
+      backdrop-filter: blur(16px);
     }
 
-    .building{
-      position:relative;
-      border-radius:var(--radius);
-      overflow:hidden;
-      background:#ddd;
-      box-shadow:0 30px 80px rgba(0,0,0,.12);
+    .floor-info small {
+      display: block;
+      color: var(--accent);
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      font-size: 11px;
+      font-weight: 700;
+      margin-bottom: 10px;
     }
 
-    .building img{width:100%;height:680px;object-fit:cover}
-    .tower-building{
-      width:min(760px,52vw);
-      margin-inline:auto;
-    }
-    .tower-building img{
-      height:920px;
-      object-position:center top;
-      filter:drop-shadow(0 40px 80px rgba(0,0,0,.45));
-    }
-    .tower-floor{left:29%;right:26%;height:5.2%;border-radius:6px}
-    .f12{top:8.8%}.f11{top:14.4%}.f10{top:20%}.f9{top:25.6%}.f8{top:31.2%}.f7{top:36.8%}.f6{top:42.4%}.f5{top:48%}.f4{top:53.6%}.f3{top:59.2%}.f2{top:66.2%}.f1{top:73.2%}
-
-    .plan-panel{
-      position:absolute;
-      left:max(32px,6vw);
-      top:50%;
-      transform:translateY(-50%);
-      width:min(520px,38vw);
-      z-index:10;
-      background:rgba(255,255,255,.82);
-      border:1px solid var(--line);
-      border-radius:var(--radius);
-      padding:28px;
-      box-shadow:0 24px 70px rgba(0,0,0,.08);
-    }
-    .plan-panel img{
-      display:none;
-    }
-    .plan-title{
-      font-family:Georgia,serif;
-      font-size:62px;
-      line-height:.92;
-      margin-bottom:18px;
-      color:#1a1714;
-    }
-    .plan-meta{
-      color:#5f5851;
-      margin-bottom:34px;
-      font-size:20px;
-      line-height:1.45;
-      max-width:380px;
-    }
-    .plan-list{display:grid;gap:10px;color:var(--muted)}
-    .plan-list div{display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:10px}
-
-    .gallery-grid{
-      display:grid;
-      grid-template-columns:repeat(4,1fr);
-      gap:18px;
-      margin-top:56px;
-    }
-    .gallery-grid img{
-      height:330px;
-      width:100%;
-      object-fit:cover;
-      border-radius:24px;
-      transition:.7s var(--ease);
-    }
-    .gallery-grid img:nth-child(2){margin-top:54px}
-    .gallery-grid img:nth-child(4){margin-top:32px}
-    .gallery-grid img:hover{transform:translateY(-8px)}
-
-    .floor-hotspot{
-      position:absolute;
-      border:1px solid rgba(255,255,255,.5);
-      background:rgba(255,255,255,.08);
-      backdrop-filter:blur(3px);
-      cursor:pointer;
-      transition:.25s var(--ease);
-    }
-    .floor-hotspot:hover,.floor-hotspot.active{
-      background:rgba(183,154,99,.44);
-      border-color:rgba(255,255,255,.92);
-      box-shadow:0 0 0 1px rgba(183,154,99,.25);
+    .floor-info strong {
+      display: block;
+      font-size: 22px;
+      line-height: 1.15;
+      margin-bottom: 10px;
     }
 
-    .view-tabs{
-      display:flex;
-      flex-wrap:wrap;
-      gap:14px;
-      margin:42px 0 0;
-    }
-    .view-tab{
-      border:1px solid rgba(0,0,0,.2);
-      min-height:64px;
-      padding:0 28px;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      border-radius:16px;
-      font-size:13px;
-      font-weight:600;
-      letter-spacing:.08em;
-      text-transform:uppercase;
-      background:#fff;
-      transition:.3s var(--ease);
-    }
-    .view-tab.active,.view-tab:hover{background:var(--dark);color:#fff;border-color:var(--dark)}
-
-    .floor-labels{
-      display:none;
-    }
-    .floor-labels span{
-      display:flex;
-      justify-content:space-between;
-      border-bottom:1px solid var(--line);
-      padding-bottom:9px;
+    .floor-info p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
     }
 
-    .filters{
-      display:grid;
-      grid-template-columns:repeat(4,1fr);
-      gap:14px;
-      margin:42px 0 28px;
-    }
-    .filter-box{
-      border:1px solid var(--line);
-      background:rgba(255,255,255,.48);
-      border-radius:20px;
-      padding:18px;
-    }
-    .filter-box small{
-      display:block;
-      color:var(--muted);
-      text-transform:uppercase;
-      letter-spacing:.16em;
-      font-size:11px;
-      margin-bottom:9px;
-    }
-    .filter-box strong{font-family:Georgia,serif;font-size:24px;font-weight:400}
-
-    .apartments-grid{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:18px;
-    }
-    .apartment-card{
-      display:grid;
-      gap:14px;
-      border:1px solid var(--line);
-      background:#fff;
-      border-radius:24px;
-      padding:20px;
-      transition:.35s var(--ease);
-    }
-    .apartment-card:hover{transform:translateY(-4px);box-shadow:0 24px 60px rgba(0,0,0,.08)}
-    .status{
-      width:max-content;
-      border-radius:999px;
-      padding:7px 11px;
-      font-size:11px;
-      letter-spacing:.12em;
-      text-transform:uppercase;
-      background:rgba(183,154,99,.16);
-      color:#7c6332;
-    }
-    .status.sold{background:rgba(28,26,23,.08);color:var(--muted)}
-    .apartment-card h3{font-size:30px;letter-spacing:-.03em}
-    .apt-meta{display:grid;gap:8px;color:var(--muted);font-size:14px}
-    .apt-meta div{display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:8px}
-
-    .gallery-page{background:#f7f4ef;color:var(--text)}
-    .gallery-head{
-      display:grid;
-      grid-template-columns:1fr .8fr;
-      gap:70px;
-      align-items:end;
-      margin-bottom:64px;
-    }
-    .gallery-group{margin-top:64px}
-    .gallery-group-title{
-      display:flex;
-      justify-content:space-between;
-      align-items:end;
-      gap:24px;
-      margin-bottom:22px;
-      border-bottom:1px solid var(--line);
-      padding-bottom:16px;
-    }
-    .gallery-group-title h3{font-size:36px}
-    .gallery-group-title span{color:var(--muted);font-size:13px;text-transform:uppercase;letter-spacing:.14em}
-    .gallery-mosaic{
-      display:grid;
-      grid-template-columns:1.2fr .8fr .8fr;
-      gap:18px;
-    }
-    .gallery-mosaic img{
-      width:100%;
-      height:360px;
-      object-fit:cover;
-      border-radius:24px;
-      cursor:pointer;
-      transition:.5s var(--ease);
-    }
-    .gallery-mosaic img:first-child{grid-row:span 2;height:738px}
-    .gallery-mosaic img:hover{transform:translateY(-5px);filter:saturate(1.05)}
-
-    .contact{
-      min-height:80vh;
-      display:grid;
-      place-items:center;
-      text-align:center;
-      background:
-        linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.55)),
-        url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1800&auto=format&fit=crop') center/cover;
-      color:#fff;
-    }
-    .contact h2{max-width:780px;margin-inline:auto}
-    .contact .lead{color:rgba(255,255,255,.78);max-width:640px;margin:0 auto 34px}
-
-    .reveal{
-      opacity:0;
-      transform:translateY(34px);
-      transition:1s var(--ease);
-    }
-    .reveal.visible{opacity:1;transform:none}
-
-    @media(max-width:1200px){
-      .plan-panel{width:min(460px,44vw);left:28px}
-      .plan-title{font-size:52px}
-      .tower-building{width:min(700px,58vw)}
+    .section {
+      padding: clamp(64px, 9vw, 120px) clamp(20px, 5vw, 72px);
     }
 
-    @media(max-width:900px){
-      .links{display:none}
-      .intro,.lifestyle-grid{grid-template-columns:1fr;gap:38px}
-      .floors{display:block;padding-top:120px}
-      .stats{grid-template-columns:1fr}
-      .gallery-grid{grid-template-columns:1fr 1fr}
-      .gallery-grid img{height:240px;margin-top:0!important}
-      .building img{height:520px}
-      .tower-building{width:100%}
-      .tower-building img{height:620px}
-      .tower-floor{left:24%;right:21%;height:5.3%}
-      .filters{grid-template-columns:1fr 1fr}
-      .apartments-grid{grid-template-columns:1fr 1fr}
-      .gallery-head{grid-template-columns:1fr;gap:24px}
-      .gallery-mosaic{grid-template-columns:1fr 1fr}
-      .gallery-mosaic img,.gallery-mosaic img:first-child{height:300px;grid-row:auto}
-      section{padding:82px 22px}
-      .hero{grid-template-columns:1fr;min-height:100svh;padding:0}
-      .hero::before{width:100%;background:linear-gradient(90deg,rgba(23,21,18,.92),rgba(23,21,18,.62))}
-      .hero img{grid-column:1;height:100svh;opacity:.72;object-position:center top}
-      .hero-content{left:22px;right:22px;top:auto;bottom:56px;transform:none;max-width:620px}
-      .plan-panel{position:relative;left:auto;top:auto;transform:none;width:100%;margin-bottom:28px}
-      .plan-title{font-size:44px}
+    .section-inner {
+      max-width: var(--max);
+      margin: 0 auto;
     }
 
-    @media(max-width:560px){
-      h1{font-size:44px}
-      h2{font-size:42px}
-      .gallery-grid{grid-template-columns:1fr}
-      .image-card,.image-card.small{min-height:340px}
-      .building img{height:430px}
-      .tower-building img{height:520px}
-      .tower-building img{height:560px}
-      .floor-hotspot{left:7%;right:7%}
-      .tower-floor{left:20%;right:17%;height:5.1%}
-      .filters,.apartments-grid,.gallery-mosaic{grid-template-columns:1fr}
-      .gallery-mosaic img,.gallery-mosaic img:first-child{height:280px}
+    .section-title {
+      margin: 0 0 28px;
+      font-size: clamp(34px, 5vw, 64px);
+      line-height: .95;
+      letter-spacing: -.05em;
+    }
+
+    .section-text {
+      max-width: 760px;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.7;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 36px;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid rgba(255,255,255,.09);
+      border-radius: var(--radius);
+      padding: 24px;
+      min-height: 180px;
+    }
+
+    .card span {
+      display: block;
+      color: var(--accent);
+      font-size: 12px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+      font-weight: 700;
+    }
+
+    .card h3 {
+      margin: 0 0 10px;
+      font-size: 24px;
+      letter-spacing: -.03em;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 15px;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: 1.25fr .75fr;
+      gap: 16px;
+      margin-top: 36px;
+    }
+
+    .gallery img {
+      width: 100%;
+      height: 100%;
+      min-height: 260px;
+      object-fit: cover;
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,.09);
+    }
+
+    .gallery-side {
+      display: grid;
+      gap: 16px;
+    }
+
+    .apartments {
+      display: grid;
+      gap: 14px;
+      margin-top: 34px;
+    }
+
+    .apartment-row {
+      display: grid;
+      grid-template-columns: 1fr auto auto auto;
+      gap: 16px;
+      align-items: center;
+      padding: 18px 20px;
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 18px;
+      background: rgba(255,255,255,.035);
+    }
+
+    .apartment-row strong {
+      font-size: 18px;
+    }
+
+    .apartment-row span {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .contact {
+      background: #000;
+      border-top: 1px solid rgba(255,255,255,.1);
+    }
+
+    .contact-box {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 30px;
+      align-items: center;
+      padding: clamp(28px, 5vw, 54px);
+      border-radius: 30px;
+      background: linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.025));
+      border: 1px solid rgba(255,255,255,.12);
+    }
+
+    .contact-box h2 {
+      margin: 0 0 12px;
+      font-size: clamp(32px, 5vw, 58px);
+      line-height: .95;
+      letter-spacing: -.05em;
+    }
+
+    .contact-box p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.6;
+      max-width: 680px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 50px;
+      padding: 0 22px;
+      border-radius: 999px;
+      background: #fff;
+      color: #000;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 980px) {
+      .hero-content {
+        bottom: 28px;
+      }
+
+      .floor-info {
+        display: none;
+      }
+
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      .gallery {
+        grid-template-columns: 1fr;
+      }
+
+      .apartment-row {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .contact-box {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .topbar {
+        padding: 14px 16px;
+      }
+
+      .brand {
+        font-size: 11px;
+      }
+
+      .top-link {
+        display: none;
+      }
+
+      .hero-image {
+        object-position: center top;
+      }
+
+      .hero-content {
+        left: 14px;
+        right: 14px;
+        bottom: 16px;
+        width: auto;
+        padding: 22px;
+      }
+
+      .hero-lead {
+        font-size: 15px;
+      }
+
+      .floor-map {
+        display: none;
+      }
+
+      .section {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+
+      .apartment-row {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
+
 <body>
-  <header class="nav" id="nav">
-    <a class="brand" href="#top">Monteagudo</a>
-    <nav class="links">
-      <a href="#concept">Concept</a>
-      <a href="#lifestyle">Lifestyle</a>
-      <a href="#floors">Floors</a>
-      <a href="#gallery">Gallery</a>
-      <a href="#contact" class="lang">Contact</a>
-    </nav>
-  </header>
+  <main class="page">
+    <header class="topbar">
+      <a class="brand" href="/">Costa Blanca Invest</a>
+      <nav class="top-actions" aria-label="Navigation">
+        <a class="top-link" href="#apartments">Apartments</a>
+        <a class="top-link" href="#gallery">Gallery</a>
+        <a class="top-link" href="#contact">Contact</a>
+      </nav>
+    </header>
 
-  <main id="top">
-    <section class="hero">
-      <img src="https://raw.githubusercontent.com/oczernyszenko/Costa-Blanca-Invest/main/pl/new-developments/monteagudo/1.jpg" alt="Luxury residence exterior" />
-      <div class="hero-content reveal visible">
-        <div class="eyebrow">Benidorm · Costa Blanca</div>
-        <h1>Monteagudo Residences</h1>
-        <p class="hero-text">A cinematic presentation concept inspired by Monteagudo — vertical architecture, sea views, glass façades and premium Costa Blanca living.</p>
-        <div class="hero-actions">
-          <a href="#concept" class="btn primary">Discover</a>
-          <a href="#contact" class="btn">Request details</a>
+    <section class="hero" aria-label="Interactive building hero">
+      <div class="hero-image-wrap">
+        <!-- ЗАМЕНИТЬ НА ТВОЁ ГЛАВНОЕ ФОТО ДОМА ИЗ GITHUB -->
+        <img
+          class="hero-image"
+          src="https://costa-blanca-invest.com/pl/new-developments/bonalba-golf-hills/images/bonalba-golf-hills-main.jpg"
+          alt="Premium residential building on Costa Blanca"
+          loading="eager"
+          fetchpriority="high"
+        />
+        <div class="hero-vignette"></div>
+
+        <!-- Координаты этажей настраиваются здесь: --x, --y, --w, --h -->
+        <div class="floor-map" aria-label="Choose floor">
+          <button class="floor-zone" data-floor="5" style="--x: 49%; --y: 23%; --w: 24%; --h: 8%;">
+            <span class="floor-label">Floor 5</span>
+          </button>
+          <button class="floor-zone" data-floor="4" style="--x: 49%; --y: 31%; --w: 24%; --h: 8%;">
+            <span class="floor-label">Floor 4</span>
+          </button>
+          <button class="floor-zone" data-floor="3" style="--x: 49%; --y: 39%; --w: 24%; --h: 8%;">
+            <span class="floor-label">Floor 3</span>
+          </button>
+          <button class="floor-zone" data-floor="2" style="--x: 49%; --y: 47%; --w: 24%; --h: 8%;">
+            <span class="floor-label">Floor 2</span>
+          </button>
+          <button class="floor-zone" data-floor="1" style="--x: 49%; --y: 55%; --w: 24%; --h: 8%;">
+            <span class="floor-label">Floor 1</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="hero-content">
+        <p class="eyebrow">New development · Costa Blanca</p>
+        <h1>Nova Cima Style Residence</h1>
+        <p class="hero-lead">
+          Интерактивный выбор этажей, premium-презентация объекта и быстрый переход к планировкам.
+        </p>
+        <div class="hero-meta">
+          <span class="pill">Alicante · Costa Blanca</span>
+          <span class="pill">From 280 800 €</span>
+          <span class="pill">2–3 bedrooms</span>
+        </div>
+      </div>
+
+      <aside class="floor-info" id="floorInfo">
+        <small>Selected floor</small>
+        <strong>Наведи на этаж</strong>
+        <p>Плашки сейчас прозрачные. При наведении подсвечивается только выбранный этаж.</p>
+      </aside>
+    </section>
+
+    <section class="section" id="about">
+      <div class="section-inner">
+        <h2 class="section-title">Premium residential project</h2>
+        <p class="section-text">
+          Этот блок можно использовать как верхнюю презентацию жилого комплекса: большое фото здания, этажи,
+          планировки, галерея и контактный CTA в стиле luxury developer website.
+        </p>
+
+        <div class="cards">
+          <article class="card">
+            <span>Location</span>
+            <h3>Costa Blanca</h3>
+            <p>Локация, море, инфраструктура и инвестиционный потенциал объекта.</p>
+          </article>
+          <article class="card">
+            <span>Architecture</span>
+            <h3>Interactive facade</h3>
+            <p>Клик по этажам помогает клиенту быстро перейти к нужным планировкам.</p>
+          </article>
+          <article class="card">
+            <span>Investment</span>
+            <h3>New build</h3>
+            <p>Подходит для презентации новостроек, вилл, апартаментов и урбанизаций.</p>
+          </article>
         </div>
       </div>
     </section>
 
-    <section id="concept">
-      <div class="wrap intro reveal">
-        <div>
-          <div class="section-label">The concept</div>
-          <h2>A contemporary tower concept inspired by the Monteagudo project and the new skyline of Costa Blanca.</h2>
-        </div>
-        <div>
-          <p class="lead">The project is presented as a vertical luxury residence: clear rhythm, large visuals, premium navigation and an interactive tower selector.</p>
-          <p class="text" style="margin-top:22px">This concept can be adapted for apartment towers, branded residences, new developments, hotel residences or investment presentations.</p>
-        </div>
-      </div>
-
-      <div class="wrap stats reveal">
-        <div class="stat"><strong>32</strong><span>Floors</span></div>
-        <div class="stat"><strong>148</strong><span>Residences</span></div>
-        <div class="stat"><strong>2027</strong><span>Delivery</span></div>
-      </div>
-    </section>
-
-    <section class="dark" id="lifestyle">
-      <div class="wrap reveal">
-        <div class="section-label">Lifestyle</div>
-        <h2>A tower experience built around height, light and panoramic views.</h2>
-        <p class="lead">The presentation feels like a developer sales suite: elegant, visual, calm and easy to understand.</p>
-
-        <div class="lifestyle-grid">
-          <div class="image-card">
-            <img src="https://raw.githubusercontent.com/oczernyszenko/Costa-Blanca-Invest/main/pl/new-developments/monteagudo/2.jpg" alt="Interior" />
-            <span>Interior calm</span>
-          </div>
-          <div class="stack">
-            <div class="image-card small">
-              <img src="https://raw.githubusercontent.com/oczernyszenko/Costa-Blanca-Invest/main/pl/new-developments/monteagudo/3.jpg" alt="Terrace" />
-              <span>Private terrace</span>
-            </div>
-            <div class="image-card small">
-              <img src="https://raw.githubusercontent.com/oczernyszenko/Costa-Blanca-Invest/main/pl/new-developments/monteagudo/4.jpg" alt="Living room" />
-              <span>Warm materials</span>
-            </div>
+    <section class="section" id="gallery">
+      <div class="section-inner">
+        <h2 class="section-title">Gallery</h2>
+        <div class="gallery">
+          <img src="https://costa-blanca-invest.com/pl/new-developments/bonalba-golf-hills/images/bonalba-golf-hills-main.jpg" alt="Project exterior" loading="lazy" />
+          <div class="gallery-side">
+            <img src="https://costa-blanca-invest.com/pl/new-developments/bonalba-golf-hills/images/bonalba-golf-hills-exterior-1.jpg" alt="Building exterior" loading="lazy" />
+            <img src="https://costa-blanca-invest.com/pl/new-developments/bonalba-golf-hills/images/bonalba-golf-hills-interior-1.jpg" alt="Interior" loading="lazy" />
           </div>
         </div>
       </div>
     </section>
 
-    <section id="floors">
-      
-
-      <div class="wrap floors reveal" id="visual-choice">
-        <div class="building tower-building">
-          <img src="https://raw.githubusercontent.com/oczernyszenko/Costa-Blanca-Invest/main/pl/new-developments/monteagudo/1.jpg" alt="Monteagudo facade" />
-          <button class="floor-hotspot tower-floor f12 active" data-floor="Этаж 5" data-area="36.59–31.10 m²" data-price="141.000–229.000 €" data-bed="Студия / 1 спальня"></button>
-          <div style="position:absolute;right:-120px;top:24%;background:#fff;color:#171512;padding:18px 26px;border-radius:14px;font-size:20px;font-weight:600;z-index:20;box-shadow:0 15px 40px rgba(0,0,0,.18)">Этаж 4</div>
-          <button class="floor-hotspot tower-floor f10" data-floor="Этаж 4" data-area="21.14–45.05 m²" data-price="117.000–164.000 €" data-bed="Студия / 1 спальня"></button>
-          <button class="floor-hotspot tower-floor f8" data-floor="Этаж 3" data-area="21.14–45.05 m²" data-price="115.000–161.000 €" data-bed="Студия / 1 спальня"></button>
-          <button class="floor-hotspot tower-floor f6" data-floor="Этаж 2" data-area="21.14–45.05 m²" data-price="113.000–158.000 €" data-bed="Студия / 1 спальня"></button>
-          <button class="floor-hotspot tower-floor f4" data-floor="Этаж 1" data-area="21.14–45.05 m²" data-price="111.000–155.000 €" data-bed="Студия / 1 спальня"></button>
-          <button class="floor-hotspot tower-floor f2" data-floor="Цоколь" data-area="33.75–39.90 m²" data-price="140.000–141.000 €" data-bed="Студия"></button>
-        </div>
-
-        <aside class="plan-panel">
-          <div class="section-label">Навигация</div>
-          <div class="plan-title" id="planTitle">Выбор этажа</div>
-          <div class="plan-meta" id="planMeta">Используйте наведение на здание для просмотра доступности и планировок.</div>
-          <div class="view-tabs">
-            <a class="view-tab active" href="#visual-choice">Визуальный выбор</a>
-            <a class="view-tab" href="#plan-choice">Плановый выбор</a>
-          </div>
-
-          <div class="plan-list" style="margin-top:34px">
-            <div><span>Площадь</span><strong id="planArea">36.59–31.10 m²</strong></div>
-            <div><span>Цена</span><strong id="planPrice">141.000–229.000 €</strong></div>
-            <div><span>Тип</span><strong id="planBed">Студия / 1 спальня</strong></div>
-          </div>
-          <div class="floor-labels">
-            <span><b>Цоколь</b><em>2 квартиры</em></span>
-            <span><b>Этажи 1–4</b><em>7 квартир на этаже</em></span>
-            <span><b>Этаж 5</b><em>6 квартир</em></span>
-          </div>
-        </aside>
-      </div>
-
-      <div class="wrap reveal" id="plan-choice" style="margin-top:110px">
-        <div class="section-label">Plan choice</div>
-        <h2>Плановый выбор</h2>
-        <p class="lead">Фильтры и карточки квартир: этаж, комнаты, площадь, цена, статус.</p>
-
-        <div class="filters">
-          <div class="filter-box"><small>Этаж</small><strong>Все</strong></div>
-          <div class="filter-box"><small>Комнаты</small><strong>Студия / 1</strong></div>
-          <div class="filter-box"><small>Цена</small><strong>111k–229k €</strong></div>
-          <div class="filter-box"><small>Площадь</small><strong>до 50 m²</strong></div>
-        </div>
-
-        <div class="apartments-grid">
-          <article class="apartment-card"><span class="status">Доступно</span><h3>Квартира 1</h3><div class="apt-meta"><div><span>Этаж</span><b>Цоколь</b></div><div><span>Комнаты</span><b>Студия</b></div><div><span>Площадь</span><b>39.90 m²</b></div><div><span>Цена</span><b>141.000 €</b></div></div></article>
-          <article class="apartment-card"><span class="status">Доступно</span><h3>Квартира 2</h3><div class="apt-meta"><div><span>Этаж</span><b>1</b></div><div><span>Комнаты</span><b>Студия</b></div><div><span>Площадь</span><b>27.27 m²</b></div><div><span>Цена</span><b>111.000 €</b></div></div></article>
-          <article class="apartment-card"><span class="status">Доступно</span><h3>Квартира 7</h3><div class="apt-meta"><div><span>Этаж</span><b>1</b></div><div><span>Комнаты</span><b>1</b></div><div><span>Площадь</span><b>45.05 m²</b></div><div><span>Цена</span><b>155.000 €</b></div></div></article>
-          <article class="apartment-card"><span class="status">Доступно</span><h3>Квартира 5</h3><div class="apt-meta"><div><span>Этаж</span><b>4</b></div><div><span>Комнаты</span><b>Студия</b></div><div><span>Площадь</span><b>30.79 m²</b></div><div><span>Цена</span><b>135.000 €</b></div></div></article>
-          <article class="apartment-card"><span class="status">Доступно</span><h3>Квартира 5</h3><div class="apt-meta"><div><span>Этаж</span><b>5</b></div><div><span>Комнаты</span><b>1</b></div><div><span>Площадь</span><b>36.59 m²</b></div><div><span>Цена</span><b>229.000 €</b></div></div></article>
-          <article class="apartment-card"><span class="status sold">Все продано</span><h3>Квартира 2</h3><div class="apt-meta"><div><span>Этаж</span><b>3</b></div><div><span>Комнаты</span><b>Студия</b></div><div><span>Площадь</span><b>27.27 m²</b></div><div><span>Цена</span><b>115.000 €</b></div></div></article>
+    <section class="section" id="apartments">
+      <div class="section-inner">
+        <h2 class="section-title">Available apartments</h2>
+        <div class="apartments" id="apartmentsList">
+          <article class="apartment-row" data-floor-row="1">
+            <strong>Floor 1</strong>
+            <span>2 bedrooms</span>
+            <span>98 m²</span>
+            <span>280 800 €</span>
+          </article>
+          <article class="apartment-row" data-floor-row="2">
+            <strong>Floor 2</strong>
+            <span>2 bedrooms</span>
+            <span>104 m²</span>
+            <span>296 500 €</span>
+          </article>
+          <article class="apartment-row" data-floor-row="3">
+            <strong>Floor 3</strong>
+            <span>3 bedrooms</span>
+            <span>122 m²</span>
+            <span>335 000 €</span>
+          </article>
+          <article class="apartment-row" data-floor-row="4">
+            <strong>Floor 4</strong>
+            <span>3 bedrooms</span>
+            <span>138 m²</span>
+            <span>372 000 €</span>
+          </article>
+          <article class="apartment-row" data-floor-row="5">
+            <strong>Floor 5</strong>
+            <span>Penthouse</span>
+            <span>156 m²</span>
+            <span>405 600 €</span>
+          </article>
         </div>
       </div>
     </section>
 
-    <section id="gallery" class="gallery-page">
-      <div class="wrap reveal">
-        <div class="gallery-head">
+    <section class="section contact" id="contact">
+      <div class="section-inner">
+        <div class="contact-box">
           <div>
-            <div class="section-label">Gallery</div>
-            <h2>Галерея</h2>
+            <h2>Запросить планировки</h2>
+            <p>
+              Costa Blanca Invest — подбор новостроек напрямую от застройщика, без комиссии покупателя.
+            </p>
           </div>
-          <p class="lead">Структура как отдельная gallery page: группы изображений, счётчик фото и крупная мозаика.</p>
+          <a class="btn" href="https://wa.me/34604158859" target="_blank" rel="noopener">WhatsApp</a>
         </div>
-
-        <div class="gallery-group">
-          <div class="gallery-group-title"><h3>Экстерьер и территория</h3><span>5 photos</span></div>
-          <div class="gallery-mosaic">
-            <img src="https://raw.githubusercontent.com/oczernyszenko/Costa-Blanca-Invest/main/pl/new-developments/monteagudo/1.jpg" alt="Monteagudo exterior 1" />
-            <img src="https://raw.githubusercontent.com/oczernyszenko/Costa-Blanca-Invest/main/pl/new-developments/monteagudo/2.jpg" alt="Monteagudo exterior 2" />
-            <img src="https://raw.githubusercontent.com/oczernyszenko/Costa-Blanca-Invest/main/pl/new-developments/monteagudo/3.jpg" alt="Monteagudo exterior 3" />
-            <img src="https://raw.githubusercontent.com/oczernyszenko/Costa-Blanca-Invest/main/pl/new-developments/monteagudo/4.jpg" alt="Monteagudo exterior 4" />
-            <img src="https://raw.githubusercontent.com/oczernyszenko/Costa-Blanca-Invest/main/pl/new-developments/monteagudo/5.jpg" alt="Monteagudo exterior 5" />
-          </div>
-        </div>
-
-        <div class="gallery-group">
-          <div class="gallery-group-title"><h3>Квартиры и планировки</h3><span>preview</span></div>
-          <div class="gallery-mosaic">
-            <img src="https://raw.githubusercontent.com/oczernyszenko/Costa-Blanca-Invest/main/pl/new-developments/monteagudo/5.jpg" alt="Apartment preview 1" />
-            <img src="https://raw.githubusercontent.com/oczernyszenko/Costa-Blanca-Invest/main/pl/new-developments/monteagudo/4.jpg" alt="Apartment preview 2" />
-            <img src="https://raw.githubusercontent.com/oczernyszenko/Costa-Blanca-Invest/main/pl/new-developments/monteagudo/3.jpg" alt="Apartment preview 3" />
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="contact" class="contact">
-      <div class="wrap reveal">
-        <div class="section-label">Private presentation</div>
-        <h2>Ready to turn a project into a premium digital experience?</h2>
-        <p class="lead">A luxury landing can be adapted to a developer, villa, apartment complex or investment project.</p>
-        <a href="mailto:hello@example.com" class="btn primary">Request concept</a>
       </div>
     </section>
   </main>
 
   <script>
-    const nav = document.getElementById('nav');
-    window.addEventListener('scroll', () => {
-      nav.classList.toggle('is-scrolled', window.scrollY > 60);
-    });
+    const floorData = {
+      "1": {
+        title: "Floor 1",
+        text: "2 bedrooms · 98 m² · from 280 800 €"
+      },
+      "2": {
+        title: "Floor 2",
+        text: "2 bedrooms · 104 m² · from 296 500 €"
+      },
+      "3": {
+        title: "Floor 3",
+        text: "3 bedrooms · 122 m² · from 335 000 €"
+      },
+      "4": {
+        title: "Floor 4",
+        text: "3 bedrooms · 138 m² · from 372 000 €"
+      },
+      "5": {
+        title: "Floor 5 · Penthouse",
+        text: "Penthouse · 156 m² · from 405 600 €"
+      }
+    };
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('visible');
+    const zones = document.querySelectorAll(".floor-zone");
+    const info = document.getElementById("floorInfo");
+    const rows = document.querySelectorAll("[data-floor-row]");
+
+    function setActiveFloor(floor) {
+      const item = floorData[floor];
+      if (!item) return;
+
+      zones.forEach(zone => {
+        zone.classList.toggle("is-active", zone.dataset.floor === floor);
       });
-    }, { threshold: 0.16 });
 
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+      rows.forEach(row => {
+        row.style.borderColor = row.dataset.floorRow === floor
+          ? "rgba(216,181,109,.65)"
+          : "rgba(255,255,255,.1)";
+        row.style.background = row.dataset.floorRow === floor
+          ? "rgba(216,181,109,.12)"
+          : "rgba(255,255,255,.035)";
+      });
 
-    const floors = document.querySelectorAll('.floor-hotspot');
-    const title = document.getElementById('planTitle');
-    const meta = document.getElementById('planMeta');
-    const area = document.getElementById('planArea');
-    const price = document.getElementById('planPrice');
-    const bed = document.getElementById('planBed');
+      info.innerHTML = `
+        <small>Selected floor</small>
+        <strong>${item.title}</strong>
+        <p>${item.text}</p>
+      `;
+    }
 
-    floors.forEach(floor => {
-      floor.addEventListener('mouseenter', () => {
-        floors.forEach(item => item.classList.remove('active'));
-        floor.classList.add('active');
-        title.textContent = floor.dataset.floor;
-        meta.textContent = 'Selected residence level preview.';
-        area.textContent = floor.dataset.area;
-        price.textContent = floor.dataset.price;
-        bed.textContent = floor.dataset.bed;
+    zones.forEach(zone => {
+      zone.addEventListener("mouseenter", () => setActiveFloor(zone.dataset.floor));
+      zone.addEventListener("focus", () => setActiveFloor(zone.dataset.floor));
+      zone.addEventListener("click", () => {
+        setActiveFloor(zone.dataset.floor);
+        document.getElementById("apartments")?.scrollIntoView({ behavior: "smooth" });
       });
     });
   </script>
 </body>
 </html>
+```
