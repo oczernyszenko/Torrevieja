@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -15,20 +14,14 @@
       --panel: #0b0b0b;
       --text: #ffffff;
       --muted: rgba(255,255,255,.72);
-      --soft: rgba(255,255,255,.12);
       --accent: #d8b56d;
       --accent-soft: rgba(216,181,109,.28);
       --max: 1240px;
       --radius: 24px;
     }
 
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
 
     body {
       margin: 0;
@@ -37,20 +30,10 @@
       background: var(--bg);
     }
 
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
 
-    img {
-      display: block;
-      max-width: 100%;
-    }
-
-    .page {
-      min-height: 100vh;
-      background: var(--bg);
-    }
+    .page { min-height: 100vh; background: var(--bg); }
 
     .topbar {
       position: fixed;
@@ -67,9 +50,7 @@
     }
 
     .brand,
-    .top-actions {
-      pointer-events: auto;
-    }
+    .top-actions { pointer-events: auto; }
 
     .brand {
       font-size: 13px;
@@ -78,11 +59,7 @@
       font-weight: 700;
     }
 
-    .top-actions {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-    }
+    .top-actions { display: flex; gap: 10px; align-items: center; }
 
     .top-link {
       padding: 10px 14px;
@@ -97,8 +74,6 @@
     .hero {
       position: relative;
       min-height: 100vh;
-      display: grid;
-      grid-template-columns: minmax(0, 1fr);
       overflow: hidden;
       background: #000;
     }
@@ -133,13 +108,44 @@
     .hero-content {
       position: absolute;
       left: clamp(20px, 5vw, 72px);
-      bottom: clamp(36px, 8vw, 92px);
+      top: 110px;
       z-index: 10;
       width: min(560px, calc(100% - 40px));
       background: #000;
       padding: clamp(22px, 4vw, 42px);
-      border-radius: 0;
     }
+
+    .floor-selector-panel {
+      margin-bottom: 26px;
+      border-bottom: 1px solid rgba(255,255,255,.12);
+      padding-bottom: 18px;
+    }
+
+    .floor-selector-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .selector-kicker {
+      font-size: 11px;
+      letter-spacing: .24em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .selector-title {
+      font-size: 28px;
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -.05em;
+    }
+
+    .floor-buttons { display: flex; gap: 8px; flex-wrap: wrap; }
 
     .eyebrow {
       margin: 0 0 18px;
@@ -180,6 +186,13 @@
       color: rgba(255,255,255,.9);
       font-size: 13px;
       background: rgba(255,255,255,.04);
+      cursor: pointer;
+    }
+
+    .pill:hover,
+    .pill.is-active {
+      border-color: rgba(216,181,109,.8);
+      background: rgba(216,181,109,.16);
     }
 
     .floor-map {
@@ -282,14 +295,8 @@
       line-height: 1.5;
     }
 
-    .section {
-      padding: clamp(64px, 9vw, 120px) clamp(20px, 5vw, 72px);
-    }
-
-    .section-inner {
-      max-width: var(--max);
-      margin: 0 auto;
-    }
+    .section { padding: clamp(64px, 9vw, 120px) clamp(20px, 5vw, 72px); }
+    .section-inner { max-width: var(--max); margin: 0 auto; }
 
     .section-title {
       margin: 0 0 28px;
@@ -359,10 +366,7 @@
       border: 1px solid rgba(255,255,255,.09);
     }
 
-    .gallery-side {
-      display: grid;
-      gap: 16px;
-    }
+    .gallery-side { display: grid; gap: 16px; }
 
     .apartments {
       display: grid;
@@ -381,19 +385,10 @@
       background: rgba(255,255,255,.035);
     }
 
-    .apartment-row strong {
-      font-size: 18px;
-    }
+    .apartment-row strong { font-size: 18px; }
+    .apartment-row span { color: var(--muted); font-size: 14px; }
 
-    .apartment-row span {
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .contact {
-      background: #000;
-      border-top: 1px solid rgba(255,255,255,.1);
-    }
+    .contact { background: #000; border-top: 1px solid rgba(255,255,255,.1); }
 
     .contact-box {
       display: grid;
@@ -435,72 +430,30 @@
     }
 
     @media (max-width: 980px) {
-      .hero-content {
-        bottom: 28px;
-      }
-
-      .floor-info {
-        display: none;
-      }
-
-      .cards {
-        grid-template-columns: 1fr;
-      }
-
-      .gallery {
-        grid-template-columns: 1fr;
-      }
-
-      .apartment-row {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .contact-box {
-        grid-template-columns: 1fr;
-      }
+      .hero-content { top: 90px; }
+      .floor-info { display: none; }
+      .cards { grid-template-columns: 1fr; }
+      .gallery { grid-template-columns: 1fr; }
+      .apartment-row { grid-template-columns: 1fr 1fr; }
+      .contact-box { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 640px) {
-      .topbar {
-        padding: 14px 16px;
-      }
-
-      .brand {
-        font-size: 11px;
-      }
-
-      .top-link {
-        display: none;
-      }
-
-      .hero-image {
-        object-position: center top;
-      }
-
+      .topbar { padding: 14px 16px; }
+      .brand { font-size: 11px; }
+      .top-link { display: none; }
+      .hero-image { object-position: center top; }
       .hero-content {
         left: 14px;
         right: 14px;
-        bottom: 16px;
+        top: 78px;
         width: auto;
         padding: 22px;
       }
-
-      .hero-lead {
-        font-size: 15px;
-      }
-
-      .floor-map {
-        display: none;
-      }
-
-      .section {
-        padding-left: 16px;
-        padding-right: 16px;
-      }
-
-      .apartment-row {
-        grid-template-columns: 1fr;
-      }
+      .hero-lead { font-size: 15px; }
+      .floor-map { display: none; }
+      .section { padding-left: 16px; padding-right: 16px; }
+      .apartment-row { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -518,42 +471,44 @@
 
     <section class="hero" aria-label="Interactive building hero">
       <div class="hero-image-wrap">
-        <!-- ЗАМЕНИТЬ НА ТВОЁ ГЛАВНОЕ ФОТО ДОМА ИЗ GITHUB -->
         <img
           class="hero-image"
-          src="https://costa-blanca-invest.com/pl/new-developments/bonalba-golf-hills/images/bonalba-golf-hills-main.jpg"
+          src="https://raw.githubusercontent.com/oczernyszenko/Torrevieja/main/fasad.png"
           alt="Premium residential building on Costa Blanca"
           loading="eager"
           fetchpriority="high"
         />
         <div class="hero-vignette"></div>
 
-        <!-- Координаты этажей настраиваются здесь: --x, --y, --w, --h -->
         <div class="floor-map" aria-label="Choose floor">
-          <button class="floor-zone" data-floor="5" style="--x: 49%; --y: 23%; --w: 24%; --h: 8%;">
-            <span class="floor-label">Floor 5</span>
-          </button>
-          <button class="floor-zone" data-floor="4" style="--x: 49%; --y: 31%; --w: 24%; --h: 8%;">
-            <span class="floor-label">Floor 4</span>
-          </button>
-          <button class="floor-zone" data-floor="3" style="--x: 49%; --y: 39%; --w: 24%; --h: 8%;">
-            <span class="floor-label">Floor 3</span>
-          </button>
-          <button class="floor-zone" data-floor="2" style="--x: 49%; --y: 47%; --w: 24%; --h: 8%;">
-            <span class="floor-label">Floor 2</span>
-          </button>
-          <button class="floor-zone" data-floor="1" style="--x: 49%; --y: 55%; --w: 24%; --h: 8%;">
-            <span class="floor-label">Floor 1</span>
-          </button>
+          <button class="floor-zone" data-floor="5" style="--x: 28%; --y: 18%; --w: 62%; --h: 11%;"><span class="floor-label">Floor 5</span></button>
+          <button class="floor-zone" data-floor="4" style="--x: 28%; --y: 30%; --w: 62%; --h: 11%;"><span class="floor-label">Floor 4</span></button>
+          <button class="floor-zone" data-floor="3" style="--x: 28%; --y: 42%; --w: 62%; --h: 11%;"><span class="floor-label">Floor 3</span></button>
+          <button class="floor-zone" data-floor="2" style="--x: 28%; --y: 54%; --w: 62%; --h: 11%;"><span class="floor-label">Floor 2</span></button>
+          <button class="floor-zone" data-floor="1" style="--x: 28%; --y: 66%; --w: 62%; --h: 11%;"><span class="floor-label">Floor 1</span></button>
         </div>
       </div>
 
       <div class="hero-content">
+        <div class="floor-selector-panel">
+          <div class="floor-selector-head">
+            <div>
+              <div class="selector-kicker">Interactive selector</div>
+              <div class="selector-title">Wybierz piętro</div>
+            </div>
+            <div class="floor-buttons">
+              <button class="pill floor-trigger" data-target-floor="5">5</button>
+              <button class="pill floor-trigger" data-target-floor="4">4</button>
+              <button class="pill floor-trigger" data-target-floor="3">3</button>
+              <button class="pill floor-trigger" data-target-floor="2">2</button>
+              <button class="pill floor-trigger" data-target-floor="1">1</button>
+            </div>
+          </div>
+        </div>
+
         <p class="eyebrow">New development · Costa Blanca</p>
         <h1>Nova Cima Style Residence</h1>
-        <p class="hero-lead">
-          Интерактивный выбор этажей, premium-презентация объекта и быстрый переход к планировкам.
-        </p>
+        <p class="hero-lead">Интерактивный выбор этажей, premium-презентация объекта и быстрый переход к планировкам.</p>
         <div class="hero-meta">
           <span class="pill">Alicante · Costa Blanca</span>
           <span class="pill">From 280 800 €</span>
@@ -571,27 +526,12 @@
     <section class="section" id="about">
       <div class="section-inner">
         <h2 class="section-title">Premium residential project</h2>
-        <p class="section-text">
-          Этот блок можно использовать как верхнюю презентацию жилого комплекса: большое фото здания, этажи,
-          планировки, галерея и контактный CTA в стиле luxury developer website.
-        </p>
+        <p class="section-text">Этот блок можно использовать как верхнюю презентацию жилого комплекса: большое фото здания, этажи, планировки, галерея и контактный CTA в стиле luxury developer website.</p>
 
         <div class="cards">
-          <article class="card">
-            <span>Location</span>
-            <h3>Costa Blanca</h3>
-            <p>Локация, море, инфраструктура и инвестиционный потенциал объекта.</p>
-          </article>
-          <article class="card">
-            <span>Architecture</span>
-            <h3>Interactive facade</h3>
-            <p>Клик по этажам помогает клиенту быстро перейти к нужным планировкам.</p>
-          </article>
-          <article class="card">
-            <span>Investment</span>
-            <h3>New build</h3>
-            <p>Подходит для презентации новостроек, вилл, апартаментов и урбанизаций.</p>
-          </article>
+          <article class="card"><span>Location</span><h3>Costa Blanca</h3><p>Локация, море, инфраструктура и инвестиционный потенциал объекта.</p></article>
+          <article class="card"><span>Architecture</span><h3>Interactive facade</h3><p>Клик по этажам помогает клиенту быстро перейти к нужным планировкам.</p></article>
+          <article class="card"><span>Investment</span><h3>New build</h3><p>Подходит для презентации новостроек, вилл, апартаментов и урбанизаций.</p></article>
         </div>
       </div>
     </section>
@@ -600,7 +540,7 @@
       <div class="section-inner">
         <h2 class="section-title">Gallery</h2>
         <div class="gallery">
-          <img src="https://costa-blanca-invest.com/pl/new-developments/bonalba-golf-hills/images/bonalba-golf-hills-main.jpg" alt="Project exterior" loading="lazy" />
+          <img src="https://raw.githubusercontent.com/oczernyszenko/Torrevieja/main/fasad.png" alt="Project exterior" loading="lazy" />
           <div class="gallery-side">
             <img src="https://costa-blanca-invest.com/pl/new-developments/bonalba-golf-hills/images/bonalba-golf-hills-exterior-1.jpg" alt="Building exterior" loading="lazy" />
             <img src="https://costa-blanca-invest.com/pl/new-developments/bonalba-golf-hills/images/bonalba-golf-hills-interior-1.jpg" alt="Interior" loading="lazy" />
@@ -613,36 +553,11 @@
       <div class="section-inner">
         <h2 class="section-title">Available apartments</h2>
         <div class="apartments" id="apartmentsList">
-          <article class="apartment-row" data-floor-row="1">
-            <strong>Floor 1</strong>
-            <span>2 bedrooms</span>
-            <span>98 m²</span>
-            <span>280 800 €</span>
-          </article>
-          <article class="apartment-row" data-floor-row="2">
-            <strong>Floor 2</strong>
-            <span>2 bedrooms</span>
-            <span>104 m²</span>
-            <span>296 500 €</span>
-          </article>
-          <article class="apartment-row" data-floor-row="3">
-            <strong>Floor 3</strong>
-            <span>3 bedrooms</span>
-            <span>122 m²</span>
-            <span>335 000 €</span>
-          </article>
-          <article class="apartment-row" data-floor-row="4">
-            <strong>Floor 4</strong>
-            <span>3 bedrooms</span>
-            <span>138 m²</span>
-            <span>372 000 €</span>
-          </article>
-          <article class="apartment-row" data-floor-row="5">
-            <strong>Floor 5</strong>
-            <span>Penthouse</span>
-            <span>156 m²</span>
-            <span>405 600 €</span>
-          </article>
+          <article class="apartment-row" data-floor-row="1"><strong>Floor 1</strong><span>2 bedrooms</span><span>98 m²</span><span>280 800 €</span></article>
+          <article class="apartment-row" data-floor-row="2"><strong>Floor 2</strong><span>2 bedrooms</span><span>104 m²</span><span>296 500 €</span></article>
+          <article class="apartment-row" data-floor-row="3"><strong>Floor 3</strong><span>3 bedrooms</span><span>122 m²</span><span>335 000 €</span></article>
+          <article class="apartment-row" data-floor-row="4"><strong>Floor 4</strong><span>3 bedrooms</span><span>138 m²</span><span>372 000 €</span></article>
+          <article class="apartment-row" data-floor-row="5"><strong>Floor 5</strong><span>Penthouse</span><span>156 m²</span><span>405 600 €</span></article>
         </div>
       </div>
     </section>
@@ -652,9 +567,7 @@
         <div class="contact-box">
           <div>
             <h2>Запросить планировки</h2>
-            <p>
-              Costa Blanca Invest — подбор новостроек напрямую от застройщика, без комиссии покупателя.
-            </p>
+            <p>Costa Blanca Invest — подбор новостроек напрямую от застройщика, без комиссии покупателя.</p>
           </div>
           <a class="btn" href="https://wa.me/34604158859" target="_blank" rel="noopener">WhatsApp</a>
         </div>
@@ -664,29 +577,15 @@
 
   <script>
     const floorData = {
-      "1": {
-        title: "Floor 1",
-        text: "2 bedrooms · 98 m² · from 280 800 €"
-      },
-      "2": {
-        title: "Floor 2",
-        text: "2 bedrooms · 104 m² · from 296 500 €"
-      },
-      "3": {
-        title: "Floor 3",
-        text: "3 bedrooms · 122 m² · from 335 000 €"
-      },
-      "4": {
-        title: "Floor 4",
-        text: "3 bedrooms · 138 m² · from 372 000 €"
-      },
-      "5": {
-        title: "Floor 5 · Penthouse",
-        text: "Penthouse · 156 m² · from 405 600 €"
-      }
+      "1": { title: "Floor 1", text: "2 bedrooms · 98 m² · from 280 800 €" },
+      "2": { title: "Floor 2", text: "2 bedrooms · 104 m² · from 296 500 €" },
+      "3": { title: "Floor 3", text: "3 bedrooms · 122 m² · from 335 000 €" },
+      "4": { title: "Floor 4", text: "3 bedrooms · 138 m² · from 372 000 €" },
+      "5": { title: "Floor 5 · Penthouse", text: "Penthouse · 156 m² · from 405 600 €" }
     };
 
     const zones = document.querySelectorAll(".floor-zone");
+    const triggers = document.querySelectorAll(".floor-trigger");
     const info = document.getElementById("floorInfo");
     const rows = document.querySelectorAll("[data-floor-row]");
 
@@ -694,25 +593,20 @@
       const item = floorData[floor];
       if (!item) return;
 
-      zones.forEach(zone => {
-        zone.classList.toggle("is-active", zone.dataset.floor === floor);
-      });
+      zones.forEach(zone => zone.classList.toggle("is-active", zone.dataset.floor === floor));
+      triggers.forEach(trigger => trigger.classList.toggle("is-active", trigger.dataset.targetFloor === floor));
 
       rows.forEach(row => {
-        row.style.borderColor = row.dataset.floorRow === floor
-          ? "rgba(216,181,109,.65)"
-          : "rgba(255,255,255,.1)";
-        row.style.background = row.dataset.floorRow === floor
-          ? "rgba(216,181,109,.12)"
-          : "rgba(255,255,255,.035)";
+        row.style.borderColor = row.dataset.floorRow === floor ? "rgba(216,181,109,.65)" : "rgba(255,255,255,.1)";
+        row.style.background = row.dataset.floorRow === floor ? "rgba(216,181,109,.12)" : "rgba(255,255,255,.035)";
       });
 
-      info.innerHTML = `
-        <small>Selected floor</small>
-        <strong>${item.title}</strong>
-        <p>${item.text}</p>
-      `;
+      info.innerHTML = `<small>Selected floor</small><strong>${item.title}</strong><p>${item.text}</p>`;
     }
+
+    triggers.forEach(trigger => {
+      trigger.addEventListener("click", () => setActiveFloor(trigger.dataset.targetFloor));
+    });
 
     zones.forEach(zone => {
       zone.addEventListener("mouseenter", () => setActiveFloor(zone.dataset.floor));
@@ -725,4 +619,3 @@
   </script>
 </body>
 </html>
-```
