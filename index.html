@@ -3,21 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Costa Blanca Invest — Interactive Building Selector</title>
-  <meta name="description" content="Premium interactive building selector by Costa Blanca Invest." />
+  <title>Monteagudo — выбор этажа</title>
+  <meta name="description" content="Интерактивный выбор этажа и апартаментов Monteagudo на Коста-Бланке." />
   <meta name="robots" content="index,follow,max-image-preview:large" />
-  <meta name="theme-color" content="#050505" />
+  <meta name="theme-color" content="#111111" />
 
   <style>
     :root {
-      --bg: #050505;
-      --panel: #0b0b0b;
-      --text: #ffffff;
-      --muted: rgba(255,255,255,.72);
-      --accent: #d8b56d;
-      --accent-soft: rgba(216,181,109,.28);
-      --max: 1240px;
-      --radius: 24px;
+      --black: #111;
+      --nav: #c9c7c1;
+      --panel: rgba(238,238,238,.88);
+      --text: #2a2927;
+      --muted: #696762;
+      --line: rgba(42,41,39,.36);
+      --gold: #c5a35a;
     }
 
     * { box-sizing: border-box; }
@@ -25,180 +24,99 @@
 
     body {
       margin: 0;
-      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--black);
       color: var(--text);
-      background: var(--bg);
     }
 
     a { color: inherit; text-decoration: none; }
-    img { display: block; max-width: 100%; }
+    button { font: inherit; }
 
-    .page { min-height: 100vh; background: var(--bg); }
+    .page { min-height: 100vh; background: var(--black); }
 
     .topbar {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
+      height: 76px;
       z-index: 50;
-      display: flex;
+      display: grid;
+      grid-template-columns: 260px 1fr 150px;
       align-items: center;
-      justify-content: space-between;
-      padding: 18px clamp(18px, 4vw, 56px);
-      background: linear-gradient(to bottom, rgba(0,0,0,.72), rgba(0,0,0,0));
-      pointer-events: none;
+      padding: 0 58px;
+      background: var(--nav);
+      color: #222;
+      letter-spacing: .34em;
+      text-transform: uppercase;
+      font-size: 14px;
+      font-weight: 600;
     }
-
-    .brand,
-    .top-actions { pointer-events: auto; }
 
     .brand {
-      font-size: 13px;
-      letter-spacing: .22em;
-      text-transform: uppercase;
-      font-weight: 700;
+      font-size: 18px;
+      letter-spacing: .46em;
+      white-space: nowrap;
     }
 
-    .top-actions { display: flex; gap: 10px; align-items: center; }
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(28px, 4vw, 72px);
+    }
 
-    .top-link {
-      padding: 10px 14px;
-      border: 1px solid rgba(255,255,255,.18);
-      border-radius: 999px;
-      font-size: 13px;
-      color: rgba(255,255,255,.88);
-      backdrop-filter: blur(10px);
-      background: rgba(0,0,0,.18);
+    .nav a {
+      opacity: .9;
+      white-space: nowrap;
+    }
+
+    .contacts {
+      justify-self: end;
+      border: 1px solid rgba(0,0,0,.18);
+      padding: 14px 28px;
+      letter-spacing: .24em;
     }
 
     .hero {
       position: relative;
       min-height: 100vh;
+      padding-top: 76px;
+      background: radial-gradient(circle at 56% 42%, #1c1c1c 0%, #111 48%, #090909 100%);
       overflow: hidden;
-      background: #000;
     }
 
-    .hero-image-wrap {
-      position: relative;
-      min-height: 100vh;
+    .building-stage {
+      position: absolute;
+      inset: 76px 0 0;
       display: flex;
-      align-items: stretch;
       justify-content: center;
-      overflow: hidden;
-      background: #000;
+      align-items: flex-end;
+      padding-bottom: 0;
     }
 
-    .hero-image {
+    .building-wrap {
+      position: relative;
+      width: min(760px, 58vw);
+      height: calc(100vh - 96px);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .building-img {
       width: 100%;
-      height: 100vh;
-      object-fit: cover;
-      object-position: center center;
-      filter: contrast(1.03) saturate(1.02);
-    }
-
-    .hero-vignette {
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(to right, rgba(0,0,0,.82) 0%, rgba(0,0,0,.42) 30%, rgba(0,0,0,.04) 62%, rgba(0,0,0,.42) 100%),
-        linear-gradient(to top, rgba(0,0,0,.72), rgba(0,0,0,0) 48%);
+      height: 100%;
+      object-fit: contain;
+      object-position: center bottom;
+      filter: brightness(.96) contrast(1.03);
+      user-select: none;
       pointer-events: none;
-    }
-
-    .hero-content {
-      position: absolute;
-      left: clamp(20px, 5vw, 72px);
-      top: 110px;
-      z-index: 10;
-      width: min(560px, calc(100% - 40px));
-      background: #000;
-      padding: clamp(22px, 4vw, 42px);
-    }
-
-    .floor-selector-panel {
-      margin-bottom: 26px;
-      border-bottom: 1px solid rgba(255,255,255,.12);
-      padding-bottom: 18px;
-    }
-
-    .floor-selector-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 14px;
-      flex-wrap: wrap;
-    }
-
-    .selector-kicker {
-      font-size: 11px;
-      letter-spacing: .24em;
-      text-transform: uppercase;
-      color: var(--accent);
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-
-    .selector-title {
-      font-size: 28px;
-      font-weight: 800;
-      line-height: 1;
-      letter-spacing: -.05em;
-    }
-
-    .floor-buttons { display: flex; gap: 8px; flex-wrap: wrap; }
-
-    .eyebrow {
-      margin: 0 0 18px;
-      font-size: 12px;
-      letter-spacing: .26em;
-      text-transform: uppercase;
-      color: var(--accent);
-      font-weight: 700;
-    }
-
-    h1 {
-      margin: 0;
-      font-size: clamp(42px, 7vw, 92px);
-      line-height: .88;
-      letter-spacing: -.06em;
-      max-width: 8ch;
-    }
-
-    .hero-lead {
-      margin: 22px 0 0;
-      max-width: 42ch;
-      color: var(--muted);
-      font-size: clamp(16px, 1.6vw, 20px);
-      line-height: 1.55;
-    }
-
-    .hero-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 28px;
-    }
-
-    .pill {
-      border: 1px solid rgba(255,255,255,.18);
-      border-radius: 999px;
-      padding: 10px 14px;
-      color: rgba(255,255,255,.9);
-      font-size: 13px;
-      background: rgba(255,255,255,.04);
-      cursor: pointer;
-    }
-
-    .pill:hover,
-    .pill.is-active {
-      border-color: rgba(216,181,109,.8);
-      background: rgba(216,181,109,.16);
     }
 
     .floor-map {
       position: absolute;
       inset: 0;
-      z-index: 8;
       pointer-events: none;
     }
 
@@ -208,13 +126,11 @@
       top: var(--y);
       width: var(--w);
       height: var(--h);
-      pointer-events: auto;
-      cursor: pointer;
-      background: transparent;
-      border: 0;
-      outline: 0;
       padding: 0;
-      appearance: none;
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+      pointer-events: auto;
     }
 
     .floor-zone::before {
@@ -222,237 +138,227 @@
       position: absolute;
       inset: 0;
       background: transparent;
-      transition: background .18s ease, box-shadow .18s ease, backdrop-filter .18s ease;
+      border: 1px solid transparent;
+      transition: background .18s ease, border-color .18s ease, box-shadow .18s ease;
     }
 
     .floor-zone:hover::before,
     .floor-zone.is-active::before {
-      background: var(--accent-soft);
-      box-shadow: inset 0 0 0 1px rgba(216,181,109,.48), 0 0 28px rgba(216,181,109,.28);
-      backdrop-filter: brightness(1.15);
+      background: rgba(197,163,90,.25);
+      border-color: rgba(197,163,90,.72);
+      box-shadow: 0 0 26px rgba(197,163,90,.22);
     }
 
     .floor-label {
       position: absolute;
-      right: -118px;
+      right: -86px;
       top: 50%;
       transform: translateY(-50%);
-      min-width: 96px;
-      padding: 9px 12px;
-      border-radius: 999px;
-      background: rgba(0,0,0,.72);
-      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(17,17,17,.86);
       color: #fff;
+      border-radius: 999px;
+      padding: 8px 14px;
       font-size: 12px;
       letter-spacing: .08em;
-      text-transform: uppercase;
       opacity: 0;
-      transition: opacity .18s ease, transform .18s ease;
-      pointer-events: none;
+      transition: opacity .18s ease;
       white-space: nowrap;
     }
 
     .floor-zone:hover .floor-label,
-    .floor-zone.is-active .floor-label {
-      opacity: 1;
-      transform: translateY(-50%) translateX(6px);
+    .floor-zone.is-active .floor-label { opacity: 1; }
+
+    .visual-card {
+      position: absolute;
+      left: clamp(42px, 10vw, 190px);
+      top: 24vh;
+      z-index: 20;
+      width: min(560px, 42vw);
+      min-height: 330px;
+      padding: 48px 48px 46px;
+      background: linear-gradient(105deg, rgba(238,238,238,.92) 0%, rgba(238,238,238,.86) 57%, rgba(255,255,255,.56) 100%);
+      border: 1px solid rgba(255,255,255,.45);
+      border-radius: 28px;
+      box-shadow: 0 34px 90px rgba(0,0,0,.24);
+      backdrop-filter: blur(10px);
+    }
+
+    .card-line {
+      width: 56px;
+      height: 3px;
+      background: #292826;
+      margin-bottom: 36px;
+    }
+
+    .kicker {
+      margin: 0 0 16px;
+      font-size: 15px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: #76736e;
+      font-weight: 700;
+    }
+
+    h1 {
+      margin: 0 0 22px;
+      font-size: clamp(34px, 3vw, 48px);
+      line-height: 1;
+      letter-spacing: -.045em;
+      color: #2a2927;
+    }
+
+    .lead {
+      max-width: 390px;
+      margin: 0;
+      font-size: 22px;
+      line-height: 1.48;
+      color: #5f5d59;
+      font-weight: 600;
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 16px;
+      margin-top: 48px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      min-width: 190px;
+      height: 62px;
+      border-radius: 7px;
+      border: 2px solid #292826;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 24px;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      background: transparent;
+      color: #292826;
+    }
+
+    .btn-dark {
+      background: #161514;
+      color: #fff;
+      border-color: #161514;
+      box-shadow: 0 18px 34px rgba(0,0,0,.18);
     }
 
     .floor-info {
       position: absolute;
-      right: clamp(18px, 4vw, 56px);
-      bottom: clamp(26px, 5vw, 64px);
-      z-index: 15;
-      width: min(340px, calc(100% - 36px));
-      background: rgba(0,0,0,.78);
-      border: 1px solid rgba(255,255,255,.14);
+      right: clamp(28px, 4vw, 70px);
+      bottom: 48px;
+      z-index: 25;
+      min-width: 260px;
+      padding: 22px 24px;
+      background: rgba(238,238,238,.9);
+      color: #292826;
       border-radius: 20px;
-      padding: 20px;
-      backdrop-filter: blur(16px);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 20px 60px rgba(0,0,0,.2);
     }
 
     .floor-info small {
       display: block;
-      color: var(--accent);
-      letter-spacing: .18em;
+      margin-bottom: 8px;
+      font-size: 12px;
+      letter-spacing: .2em;
       text-transform: uppercase;
-      font-size: 11px;
-      font-weight: 700;
-      margin-bottom: 10px;
+      color: #77736d;
+      font-weight: 800;
     }
 
     .floor-info strong {
       display: block;
-      font-size: 22px;
-      line-height: 1.15;
-      margin-bottom: 10px;
+      font-size: 26px;
+      line-height: 1;
+      color: #292826;
+      margin-bottom: 8px;
     }
 
     .floor-info p {
       margin: 0;
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.5;
+      color: #5f5d59;
+      font-size: 15px;
+      line-height: 1.45;
+      font-weight: 600;
     }
 
-    .section { padding: clamp(64px, 9vw, 120px) clamp(20px, 5vw, 72px); }
-    .section-inner { max-width: var(--max); margin: 0 auto; }
+    .section {
+      padding: 90px clamp(20px, 6vw, 90px);
+      background: #111;
+      color: #fff;
+    }
 
-    .section-title {
-      margin: 0 0 28px;
+    .section-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+
+    .section h2 {
+      margin: 0 0 24px;
       font-size: clamp(34px, 5vw, 64px);
-      line-height: .95;
+      line-height: 1;
       letter-spacing: -.05em;
     }
 
-    .section-text {
-      max-width: 760px;
-      color: var(--muted);
-      font-size: 18px;
-      line-height: 1.7;
-    }
-
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 18px;
-      margin-top: 36px;
-    }
-
-    .card {
-      background: var(--panel);
-      border: 1px solid rgba(255,255,255,.09);
-      border-radius: var(--radius);
-      padding: 24px;
-      min-height: 180px;
-    }
-
-    .card span {
-      display: block;
-      color: var(--accent);
-      font-size: 12px;
-      letter-spacing: .16em;
-      text-transform: uppercase;
-      margin-bottom: 14px;
-      font-weight: 700;
-    }
-
-    .card h3 {
-      margin: 0 0 10px;
-      font-size: 24px;
-      letter-spacing: -.03em;
-    }
-
-    .card p {
-      margin: 0;
-      color: var(--muted);
-      line-height: 1.55;
-      font-size: 15px;
-    }
-
-    .gallery {
-      display: grid;
-      grid-template-columns: 1.25fr .75fr;
-      gap: 16px;
-      margin-top: 36px;
-    }
-
-    .gallery img {
-      width: 100%;
-      height: 100%;
-      min-height: 260px;
-      object-fit: cover;
-      border-radius: var(--radius);
-      border: 1px solid rgba(255,255,255,.09);
-    }
-
-    .gallery-side { display: grid; gap: 16px; }
-
     .apartments {
       display: grid;
-      gap: 14px;
-      margin-top: 34px;
+      gap: 12px;
+      margin-top: 28px;
     }
 
     .apartment-row {
       display: grid;
       grid-template-columns: 1fr auto auto auto;
-      gap: 16px;
+      gap: 18px;
       align-items: center;
-      padding: 18px 20px;
-      border: 1px solid rgba(255,255,255,.1);
-      border-radius: 18px;
-      background: rgba(255,255,255,.035);
-    }
-
-    .apartment-row strong { font-size: 18px; }
-    .apartment-row span { color: var(--muted); font-size: 14px; }
-
-    .contact { background: #000; border-top: 1px solid rgba(255,255,255,.1); }
-
-    .contact-box {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 30px;
-      align-items: center;
-      padding: clamp(28px, 5vw, 54px);
-      border-radius: 30px;
-      background: linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.025));
+      padding: 20px 22px;
       border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      color: #fff;
     }
 
-    .contact-box h2 {
-      margin: 0 0 12px;
-      font-size: clamp(32px, 5vw, 58px);
-      line-height: .95;
-      letter-spacing: -.05em;
-    }
+    .apartment-row span { color: rgba(255,255,255,.72); }
 
-    .contact-box p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 17px;
-      line-height: 1.6;
-      max-width: 680px;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 50px;
-      padding: 0 22px;
-      border-radius: 999px;
-      background: #fff;
-      color: #000;
-      font-weight: 800;
-      white-space: nowrap;
-    }
-
-    @media (max-width: 980px) {
-      .hero-content { top: 90px; }
-      .floor-info { display: none; }
-      .cards { grid-template-columns: 1fr; }
-      .gallery { grid-template-columns: 1fr; }
-      .apartment-row { grid-template-columns: 1fr 1fr; }
-      .contact-box { grid-template-columns: 1fr; }
-    }
-
-    @media (max-width: 640px) {
-      .topbar { padding: 14px 16px; }
-      .brand { font-size: 11px; }
-      .top-link { display: none; }
-      .hero-image { object-position: center top; }
-      .hero-content {
-        left: 14px;
-        right: 14px;
-        top: 78px;
-        width: auto;
-        padding: 22px;
+    @media (max-width: 1100px) {
+      .topbar {
+        grid-template-columns: 1fr auto;
+        padding: 0 24px;
       }
-      .hero-lead { font-size: 15px; }
+      .nav { display: none; }
+      .contacts { display: none; }
+      .visual-card {
+        left: 24px;
+        width: min(520px, calc(100vw - 48px));
+      }
+      .building-wrap { width: min(760px, 86vw); opacity: .72; }
+    }
+
+    @media (max-width: 700px) {
+      .topbar { height: 64px; }
+      .brand { font-size: 14px; letter-spacing: .32em; }
+      .hero { padding-top: 64px; min-height: 100svh; }
+      .building-stage { inset: 64px 0 0; align-items: flex-end; }
+      .building-wrap { width: 105vw; height: 62vh; opacity: .82; }
+      .visual-card {
+        top: 88px;
+        left: 16px;
+        right: 16px;
+        width: auto;
+        min-height: 0;
+        padding: 30px 24px;
+        border-radius: 22px;
+      }
+      .lead { font-size: 17px; }
+      .card-actions { margin-top: 30px; }
+      .btn { min-width: 100%; }
+      .floor-info { display: none; }
       .floor-map { display: none; }
-      .section { padding-left: 16px; padding-right: 16px; }
       .apartment-row { grid-template-columns: 1fr; }
     }
   </style>
@@ -461,115 +367,65 @@
 <body>
   <main class="page">
     <header class="topbar">
-      <a class="brand" href="/">Costa Blanca Invest</a>
-      <nav class="top-actions" aria-label="Navigation">
-        <a class="top-link" href="#apartments">Apartments</a>
-        <a class="top-link" href="#gallery">Gallery</a>
-        <a class="top-link" href="#contact">Contact</a>
+      <a class="brand" href="#">NOVA CIMA</a>
+      <nav class="nav" aria-label="Главное меню">
+        <a href="#apartments">Квартиры</a>
+        <a href="#">Ход стройки</a>
+        <a href="#">Инвесторам</a>
+        <a href="#gallery">Галерея</a>
+        <a href="#contact">Консьерж</a>
       </nav>
+      <a class="contacts" href="#contact">Контакты</a>
     </header>
 
-    <section class="hero" aria-label="Interactive building hero">
-      <div class="hero-image-wrap">
-        <img
-          class="hero-image"
-          src="https://raw.githubusercontent.com/oczernyszenko/Torrevieja/main/fasad.png"
-          alt="Premium residential building on Costa Blanca"
-          loading="eager"
-          fetchpriority="high"
-        />
-        <div class="hero-vignette"></div>
+    <section class="hero" aria-label="Визуальный выбор этажа">
+      <div class="building-stage">
+        <div class="building-wrap">
+          <img
+            class="building-img"
+            src="https://raw.githubusercontent.com/oczernyszenko/Torrevieja/main/fasad.png"
+            alt="Monteagudo — новый жилой проект на Коста-Бланке"
+            loading="eager"
+            fetchpriority="high"
+          />
 
-        <div class="floor-map" aria-label="Choose floor">
-          <button class="floor-zone" data-floor="5" style="--x: 28%; --y: 18%; --w: 62%; --h: 11%;"><span class="floor-label">Floor 5</span></button>
-          <button class="floor-zone" data-floor="4" style="--x: 28%; --y: 30%; --w: 62%; --h: 11%;"><span class="floor-label">Floor 4</span></button>
-          <button class="floor-zone" data-floor="3" style="--x: 28%; --y: 42%; --w: 62%; --h: 11%;"><span class="floor-label">Floor 3</span></button>
-          <button class="floor-zone" data-floor="2" style="--x: 28%; --y: 54%; --w: 62%; --h: 11%;"><span class="floor-label">Floor 2</span></button>
-          <button class="floor-zone" data-floor="1" style="--x: 28%; --y: 66%; --w: 62%; --h: 11%;"><span class="floor-label">Floor 1</span></button>
+          <div class="floor-map" aria-label="Выбор этажа на фасаде">
+            <button class="floor-zone" data-floor="5" style="--x: 12%; --y: 19%; --w: 78%; --h: 11%;"><span class="floor-label">Этаж 5</span></button>
+            <button class="floor-zone" data-floor="4" style="--x: 12%; --y: 31%; --w: 78%; --h: 11%;"><span class="floor-label">Этаж 4</span></button>
+            <button class="floor-zone" data-floor="3" style="--x: 12%; --y: 43%; --w: 78%; --h: 11%;"><span class="floor-label">Этаж 3</span></button>
+            <button class="floor-zone" data-floor="2" style="--x: 12%; --y: 55%; --w: 78%; --h: 11%;"><span class="floor-label">Этаж 2</span></button>
+            <button class="floor-zone" data-floor="1" style="--x: 12%; --y: 67%; --w: 78%; --h: 11%;"><span class="floor-label">Этаж 1</span></button>
+          </div>
         </div>
       </div>
 
-      <div class="hero-content">
-        <div class="floor-selector-panel">
-          <div class="floor-selector-head">
-            <div>
-              <div class="selector-kicker">Interactive selector</div>
-              <div class="selector-title">Wybierz piętro</div>
-            </div>
-            <div class="floor-buttons">
-              <button class="pill floor-trigger" data-target-floor="5">5</button>
-              <button class="pill floor-trigger" data-target-floor="4">4</button>
-              <button class="pill floor-trigger" data-target-floor="3">3</button>
-              <button class="pill floor-trigger" data-target-floor="2">2</button>
-              <button class="pill floor-trigger" data-target-floor="1">1</button>
-            </div>
-          </div>
-        </div>
-
-        <p class="eyebrow">New development · Costa Blanca</p>
-        <h1>Nova Cima Style Residence</h1>
-        <p class="hero-lead">Интерактивный выбор этажей, premium-презентация объекта и быстрый переход к планировкам.</p>
-        <div class="hero-meta">
-          <span class="pill">Alicante · Costa Blanca</span>
-          <span class="pill">From 280 800 €</span>
-          <span class="pill">2–3 bedrooms</span>
+      <div class="visual-card">
+        <div class="card-line"></div>
+        <p class="kicker">Навигация</p>
+        <h1>Monteagudo</h1>
+        <p class="lead">Современный жилой комплекс на Коста-Бланке с квартирами, террасами и панорамными видами.</p>
+        <div class="card-actions">
+          <button class="btn btn-dark" type="button" onclick="document.querySelector('.building-wrap').scrollIntoView({behavior:'smooth'});">Визуальный выбор</button>
+          <a class="btn" href="#apartments">Плановый выбор</a>
         </div>
       </div>
 
       <aside class="floor-info" id="floorInfo">
-        <small>Selected floor</small>
-        <strong>Наведи на этаж</strong>
-        <p>Плашки сейчас прозрачные. При наведении подсвечивается только выбранный этаж.</p>
+        <small>Выбранный этаж</small>
+        <strong>Наведите на этаж</strong>
+        <p>При наведении подсвечивается выбранный этаж дома.</p>
       </aside>
-    </section>
-
-    <section class="section" id="about">
-      <div class="section-inner">
-        <h2 class="section-title">Premium residential project</h2>
-        <p class="section-text">Этот блок можно использовать как верхнюю презентацию жилого комплекса: большое фото здания, этажи, планировки, галерея и контактный CTA в стиле luxury developer website.</p>
-
-        <div class="cards">
-          <article class="card"><span>Location</span><h3>Costa Blanca</h3><p>Локация, море, инфраструктура и инвестиционный потенциал объекта.</p></article>
-          <article class="card"><span>Architecture</span><h3>Interactive facade</h3><p>Клик по этажам помогает клиенту быстро перейти к нужным планировкам.</p></article>
-          <article class="card"><span>Investment</span><h3>New build</h3><p>Подходит для презентации новостроек, вилл, апартаментов и урбанизаций.</p></article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="gallery">
-      <div class="section-inner">
-        <h2 class="section-title">Gallery</h2>
-        <div class="gallery">
-          <img src="https://raw.githubusercontent.com/oczernyszenko/Torrevieja/main/fasad.png" alt="Project exterior" loading="lazy" />
-          <div class="gallery-side">
-            <img src="https://costa-blanca-invest.com/pl/new-developments/bonalba-golf-hills/images/bonalba-golf-hills-exterior-1.jpg" alt="Building exterior" loading="lazy" />
-            <img src="https://costa-blanca-invest.com/pl/new-developments/bonalba-golf-hills/images/bonalba-golf-hills-interior-1.jpg" alt="Interior" loading="lazy" />
-          </div>
-        </div>
-      </div>
     </section>
 
     <section class="section" id="apartments">
       <div class="section-inner">
-        <h2 class="section-title">Available apartments</h2>
-        <div class="apartments" id="apartmentsList">
-          <article class="apartment-row" data-floor-row="1"><strong>Floor 1</strong><span>2 bedrooms</span><span>98 m²</span><span>280 800 €</span></article>
-          <article class="apartment-row" data-floor-row="2"><strong>Floor 2</strong><span>2 bedrooms</span><span>104 m²</span><span>296 500 €</span></article>
-          <article class="apartment-row" data-floor-row="3"><strong>Floor 3</strong><span>3 bedrooms</span><span>122 m²</span><span>335 000 €</span></article>
-          <article class="apartment-row" data-floor-row="4"><strong>Floor 4</strong><span>3 bedrooms</span><span>138 m²</span><span>372 000 €</span></article>
-          <article class="apartment-row" data-floor-row="5"><strong>Floor 5</strong><span>Penthouse</span><span>156 m²</span><span>405 600 €</span></article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section contact" id="contact">
-      <div class="section-inner">
-        <div class="contact-box">
-          <div>
-            <h2>Запросить планировки</h2>
-            <p>Costa Blanca Invest — подбор новостроек напрямую от застройщика, без комиссии покупателя.</p>
-          </div>
-          <a class="btn" href="https://wa.me/34604158859" target="_blank" rel="noopener">WhatsApp</a>
+        <h2>Доступные квартиры Monteagudo</h2>
+        <div class="apartments">
+          <article class="apartment-row" data-floor-row="1"><strong>Этаж 1</strong><span>2 спальни</span><span>98 м²</span><span>от 280 800 €</span></article>
+          <article class="apartment-row" data-floor-row="2"><strong>Этаж 2</strong><span>2 спальни</span><span>104 м²</span><span>от 296 500 €</span></article>
+          <article class="apartment-row" data-floor-row="3"><strong>Этаж 3</strong><span>3 спальни</span><span>122 м²</span><span>от 335 000 €</span></article>
+          <article class="apartment-row" data-floor-row="4"><strong>Этаж 4</strong><span>3 спальни</span><span>138 м²</span><span>от 372 000 €</span></article>
+          <article class="apartment-row" data-floor-row="5"><strong>Этаж 5</strong><span>Пентхаус</span><span>156 м²</span><span>от 405 600 €</span></article>
         </div>
       </div>
     </section>
@@ -577,15 +433,14 @@
 
   <script>
     const floorData = {
-      "1": { title: "Floor 1", text: "2 bedrooms · 98 m² · from 280 800 €" },
-      "2": { title: "Floor 2", text: "2 bedrooms · 104 m² · from 296 500 €" },
-      "3": { title: "Floor 3", text: "3 bedrooms · 122 m² · from 335 000 €" },
-      "4": { title: "Floor 4", text: "3 bedrooms · 138 m² · from 372 000 €" },
-      "5": { title: "Floor 5 · Penthouse", text: "Penthouse · 156 m² · from 405 600 €" }
+      "1": { title: "Этаж 1", text: "2 спальни · 98 м² · от 280 800 €" },
+      "2": { title: "Этаж 2", text: "2 спальни · 104 м² · от 296 500 €" },
+      "3": { title: "Этаж 3", text: "3 спальни · 122 м² · от 335 000 €" },
+      "4": { title: "Этаж 4", text: "3 спальни · 138 м² · от 372 000 €" },
+      "5": { title: "Этаж 5", text: "Пентхаус · 156 м² · от 405 600 €" }
     };
 
     const zones = document.querySelectorAll(".floor-zone");
-    const triggers = document.querySelectorAll(".floor-trigger");
     const info = document.getElementById("floorInfo");
     const rows = document.querySelectorAll("[data-floor-row]");
 
@@ -594,19 +449,15 @@
       if (!item) return;
 
       zones.forEach(zone => zone.classList.toggle("is-active", zone.dataset.floor === floor));
-      triggers.forEach(trigger => trigger.classList.toggle("is-active", trigger.dataset.targetFloor === floor));
 
       rows.forEach(row => {
-        row.style.borderColor = row.dataset.floorRow === floor ? "rgba(216,181,109,.65)" : "rgba(255,255,255,.1)";
-        row.style.background = row.dataset.floorRow === floor ? "rgba(216,181,109,.12)" : "rgba(255,255,255,.035)";
+        const active = row.dataset.floorRow === floor;
+        row.style.borderColor = active ? "rgba(197,163,90,.85)" : "rgba(255,255,255,.12)";
+        row.style.background = active ? "rgba(197,163,90,.16)" : "rgba(255,255,255,.04)";
       });
 
-      info.innerHTML = `<small>Selected floor</small><strong>${item.title}</strong><p>${item.text}</p>`;
+      info.innerHTML = `<small>Выбранный этаж</small><strong>${item.title}</strong><p>${item.text}</p>`;
     }
-
-    triggers.forEach(trigger => {
-      trigger.addEventListener("click", () => setActiveFloor(trigger.dataset.targetFloor));
-    });
 
     zones.forEach(zone => {
       zone.addEventListener("mouseenter", () => setActiveFloor(zone.dataset.floor));
