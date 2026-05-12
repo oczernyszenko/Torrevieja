@@ -13,29 +13,24 @@
 
   <style>
     :root {
-      --black: #3b3f46;
-      --nav: #c9c7c1;
-      --panel: rgba(238,238,238,.88);
-      --text: #2a2927;
-      --muted: #696762;
-      --line: rgba(42,41,39,.36);
-      --gold: #c5a35a;
+      --bg: #3b3f46;
+      --nav: #d4d1cb;
+      --red: rgba(255, 45, 45, .28);
+      --red-glow: rgba(255, 45, 45, .48);
     }
 
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
-
     body {
       margin: 0;
       font-family: 'Inter', Arial, Helvetica, sans-serif;
-      background: var(--black);
-      color: var(--text);
+      background: var(--bg);
+      color: #fff;
     }
-
     a { color: inherit; text-decoration: none; }
     button { font: inherit; }
 
-    .page { min-height: 100vh; background: var(--black); }
+    .page { min-height: 100vh; background: var(--bg); }
 
     .topbar {
       position: fixed;
@@ -48,7 +43,7 @@
       grid-template-columns: 320px 1fr 210px;
       align-items: center;
       padding: 0 72px;
-      background: #d4d1cb;
+      background: var(--nav);
       color: #222;
       letter-spacing: .28em;
       text-transform: uppercase;
@@ -62,7 +57,6 @@
       letter-spacing: .42em;
       white-space: nowrap;
       font-weight: 600;
-      font-family: 'Inter', sans-serif;
     }
 
     .nav {
@@ -80,12 +74,19 @@
       justify-content: center;
       height: 48px;
       padding: 0 10px;
+      transition: opacity .45s ease, transform .45s cubic-bezier(.22,1,.36,1), color .45s ease;
+    }
+
+    .nav a:hover {
+      opacity: 1;
+      transform: translateY(-2px);
+      color: #111;
     }
 
     .contacts {
       justify-self: end;
-      border: 1px solid rgba(0,0,0,.14);
-      background: rgba(255,255,255,.14);
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.12);
       min-width: 200px;
       height: 50px;
       display: inline-flex;
@@ -93,18 +94,22 @@
       justify-content: center;
       padding: 0 28px;
       letter-spacing: .22em;
-      transition: all .18s ease;
+      transition: all .55s cubic-bezier(.22,1,.36,1);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 8px 30px rgba(0,0,0,.06);
     }
 
     .contacts:hover {
-      background: rgba(255,255,255,.36);
-      border-color: rgba(0,0,0,.22);
+      transform: translateY(-2px);
+      background: rgba(255,255,255,.24);
+      box-shadow: 0 16px 40px rgba(255,185,215,.12);
     }
 
     .hero {
       position: relative;
       min-height: 100vh;
-      padding-top: 76px;
+      padding-top: 88px;
       background:
         radial-gradient(circle at 50% 0%, rgba(255,188,220,.30) 0%, rgba(255,188,220,.12) 18%, transparent 42%),
         radial-gradient(circle at 18% 40%, rgba(255,170,205,.14) 0%, transparent 48%),
@@ -124,11 +129,10 @@
 
     .building-stage {
       position: absolute;
-      inset: 76px 0 0;
+      inset: 88px 0 0;
       display: flex;
       justify-content: center;
       align-items: flex-end;
-      padding-bottom: 0;
     }
 
     .building-wrap {
@@ -136,19 +140,18 @@
       width: min(760px, 58vw);
       aspect-ratio: 942 / 1004;
       height: auto;
-      max-height: calc(100vh - 96px);
+      max-height: calc(100vh - 108px);
       display: flex;
       align-items: flex-end;
       justify-content: center;
-      transition: transform .45s ease, filter .45s ease;
-      transform-origin: center bottom;
+      transform: translateY(0);
+      transition: transform 1.4s cubic-bezier(.22,1,.36,1), filter 1.4s cubic-bezier(.22,1,.36,1);
       will-change: transform;
     }
 
-    .building-wrap:hover {
-      transform: none;
-      z-index: 30;
-      filter: none;
+    .hero:hover .building-wrap {
+      transform: translateY(-4px);
+      filter: drop-shadow(0 24px 60px rgba(255,185,215,.08));
     }
 
     .building-img {
@@ -182,24 +185,24 @@
       cursor: pointer;
       pointer-events: auto;
       appearance: none;
+      touch-action: manipulation;
     }
 
     .floor-zone::before {
       content: "";
       position: absolute;
       inset: 0;
-      background: rgba(255,185,215,0);
-      border: 1px solid rgba(255,210,225,.28);
-      box-shadow: none;
-      transition: background .18s ease, border-color .18s ease, box-shadow .18s ease, backdrop-filter .18s ease;
+      background: rgba(255,45,45,0);
+      border: 0;
+      transition: background .55s cubic-bezier(.22,1,.36,1), box-shadow .55s cubic-bezier(.22,1,.36,1), backdrop-filter .55s cubic-bezier(.22,1,.36,1), opacity .55s ease;
       backdrop-filter: brightness(1);
     }
 
     .floor-zone:hover::before,
-    .floor-zone.is-active::before {
-      background: rgba(255,45,45,.28);
-      border-color: transparent;
-      box-shadow: 0 0 54px rgba(255,45,45,.48), inset 0 0 36px rgba(255,255,255,.14);
+    .floor-zone.is-active::before,
+    .floor-zone:active::before {
+      background: var(--red);
+      box-shadow: 0 0 80px rgba(255,45,45,.34), 0 0 120px rgba(255,185,215,.12), inset 0 0 36px rgba(255,255,255,.10);
       backdrop-filter: brightness(1.34);
     }
 
@@ -218,7 +221,7 @@
       letter-spacing: .08em;
       white-space: nowrap;
       opacity: 0;
-      transition: opacity .18s ease, transform .18s ease;
+      transition: opacity .45s ease, transform .45s cubic-bezier(.22,1,.36,1), background .45s ease;
       pointer-events: none;
     }
 
@@ -236,150 +239,43 @@
       width: min(760px, 54vw);
       min-height: 330px;
       padding: 42px 42px 38px;
-      background: linear-gradient(90deg, rgba(10,10,12,.72) 0%, rgba(18,18,22,.52) 45%, rgba(22,22,26,.34) 100%);
-      border: 1px solid rgba(255,220,230,.18);
+      background: linear-gradient(135deg, rgba(12,12,14,.74) 0%, rgba(22,22,28,.48) 48%, rgba(34,34,40,.26) 100%);
+      border: 1px solid rgba(255,220,230,.12);
       border-radius: 34px;
-      box-shadow: 0 20px 80px rgba(255,185,215,.12);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      transition: transform .55s ease, opacity .55s ease, background .4s ease;
-      will-change: transform;
+      box-shadow: 0 30px 120px rgba(0,0,0,.22), 0 0 80px rgba(255,185,215,.08);
+      backdrop-filter: blur(24px) saturate(140%);
+      -webkit-backdrop-filter: blur(24px) saturate(140%);
       overflow: hidden;
+      transition: transform 1.2s cubic-bezier(.22,1,.36,1), box-shadow 1.2s cubic-bezier(.22,1,.36,1), border-color .8s ease;
+    }
+
+    .hero:hover .visual-card {
+      transform: translateY(-4px);
+      box-shadow: 0 40px 140px rgba(0,0,0,.28), 0 0 120px rgba(255,185,215,.12);
+      border-color: rgba(255,220,230,.2);
     }
 
     .visual-card::before {
       content: "";
       position: absolute;
       inset: 0;
-      background: linear-gradient(90deg, rgba(255,255,255,.18) 0%, rgba(255,255,255,.05) 42%, rgba(255,255,255,0) 100%);
+      background:
+        linear-gradient(120deg, rgba(255,255,255,.16) 0%, rgba(255,255,255,.04) 34%, rgba(255,255,255,0) 62%),
+        radial-gradient(circle at top left, rgba(255,185,215,.12) 0%, transparent 38%);
       pointer-events: none;
+      opacity: .9;
     }
 
-    .hero:has(.building-wrap:hover) .visual-card {
-      transform: none;
-      opacity: 1;
-      background: linear-gradient(90deg, rgba(12,12,14,.76) 0%, rgba(18,18,22,.56) 45%, rgba(24,24,28,.38) 100%);
-    }
-
-    .card-line {
-      width: 78px;
-      height: 4px;
-      background: rgba(255,255,255,.92);
-      margin-bottom: 34px;
-      border-radius: 999px;
-    }
-
-    .kicker {
-      margin: 0 0 14px;
-      font-size: 13px;
-      letter-spacing: .22em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,.72);
-      font-weight: 700;
-    }
-
-    h1 {
-      margin: 0 0 18px;
-      font-size: clamp(58px, 6vw, 104px);
-      line-height: .92;
-      letter-spacing: -.065em;
-      color: #ffffff;
-      max-width: 100%;
-      text-shadow: 0 4px 24px rgba(255,185,215,.12);
-      font-family: 'Inter', sans-serif;
-      font-weight: 900;
-    }
-
-    .lead {
+    .card-line, .kicker, h1, .lead {
       max-width: 720px;
       margin: 0;
       font-size: 22px;
       line-height: 1.42;
-      color: rgba(255,255,255,.82);
+      color: rgba(255,255,255,.76);
+      font-weight: 400;
+      letter-spacing: -.01em;
+    }5,255,.82);
       font-weight: 500;
-      font-family: 'Inter', sans-serif;
-    }
-
-    .card-actions {
-      display: flex;
-      gap: 16px;
-      margin-top: 48px;
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      min-width: 190px;
-      height: 62px;
-      border-radius: 10px;
-      border: 1px solid rgba(255,255,255,.38);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0 24px;
-      text-transform: uppercase;
-      letter-spacing: .12em;
-      font-size: 12px;
-      font-weight: 800;
-      cursor: pointer;
-      background: rgba(120,128,142,.16);
-      color: #ffffff;
-      backdrop-filter: blur(8px);
-      font-family: 'Inter', sans-serif;
-    }
-
-    .btn-dark {
-      background: linear-gradient(180deg, rgba(255,205,225,.22) 0%, rgba(255,185,215,.14) 100%);
-      color: #fff;
-      border-color: rgba(255,220,230,.52);
-      box-shadow: 0 10px 30px rgba(255,185,215,.16);
-    }
-
-    .floor-info {
-      position: absolute;
-      right: clamp(28px, 4vw, 70px);
-      bottom: 48px;
-      z-index: 25;
-      min-width: 280px;
-      padding: 24px 26px;
-      background: linear-gradient(180deg, rgba(16,16,18,.72) 0%, rgba(28,28,34,.52) 100%);
-      color: #fff;
-      border: 1px solid rgba(255,220,230,.18);
-      border-radius: 26px;
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      box-shadow: 0 18px 60px rgba(255,185,215,.10);
-      transition: transform .45s ease, opacity .45s ease;
-    }
-
-    .hero:has(.building-wrap:hover) .floor-info {
-      transform: none;
-      opacity: 1;
-    }
-
-    .floor-info small {
-      display: block;
-      margin-bottom: 8px;
-      font-size: 12px;
-      letter-spacing: .2em;
-      text-transform: uppercase;
-      color: #77736d;
-      font-weight: 800;
-    }
-
-    .floor-info strong {
-      display: block;
-      font-size: 26px;
-      line-height: 1;
-      color: #fff;
-      margin-bottom: 8px;
-    }
-
-    .floor-info p {
-      margin: 0;
-      color: rgba(255,255,255,.78);
-      font-size: 15px;
-      line-height: 1.45;
-      font-weight: 600;
     }
 
     .section {
@@ -388,10 +284,7 @@
       color: #fff;
     }
 
-    .section-inner {
-      max-width: 1180px;
-      margin: 0 auto;
-    }
+    .section-inner { max-width: 1180px; margin: 0 auto; }
 
     .section h2 {
       margin: 0 0 24px;
@@ -400,11 +293,7 @@
       letter-spacing: -.05em;
     }
 
-    .apartments {
-      display: grid;
-      gap: 12px;
-      margin-top: 28px;
-    }
+    .apartments { display: grid; gap: 12px; margin-top: 28px; }
 
     .apartment-row {
       display: grid;
@@ -412,91 +301,42 @@
       gap: 18px;
       align-items: center;
       padding: 20px 22px;
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.03);
       color: #fff;
+      transition: all .6s cubic-bezier(.22,1,.36,1);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .apartment-row:hover {
+      transform: translateY(-2px);
+      background: rgba(255,255,255,.05);
+      border-color: rgba(255,255,255,.14);
+    }
+
+    .apartment-row.is-active {
+      border-color: rgba(197,163,90,.85);
+      background: rgba(197,163,90,.16);
     }
 
     .apartment-row span { color: rgba(255,255,255,.72); }
 
     @media (max-width: 1100px) {
-      .topbar {
-        grid-template-columns: 1fr auto;
-        padding: 0 24px;
-      }
-      .nav { display: none; }
-      .contacts { display: none; }
-      .visual-card {
-        left: 24px;
-        width: min(520px, calc(100vw - 48px));
-      }
-      .building-wrap {
-        width: min(760px, 86vw);
-        aspect-ratio: 942 / 1004;
-        height: auto;
-        opacity: .72;
-      }
+      .topbar { grid-template-columns: 1fr auto; padding: 0 24px; }
+      .nav, .contacts { display: none; }
+      .visual-card { left: 24px; width: min(520px, calc(100vw - 48px)); }
+      .building-wrap { width: min(760px, 86vw); opacity: .72; }
     }
 
     @media (max-width: 700px) {
-      .topbar {
-        height: 64px;
-        grid-template-columns: 1fr auto;
-        padding: 0 16px;
-      }
+      .topbar { height: 64px; padding: 0 16px; }
+      .brand { font-size: 14px; letter-spacing: .26em; }
+      .hero { min-height: 100svh; padding-top: 64px; }
+      .hero::before { inset: 64px 0 auto 0; }
+      .building-stage { inset: 64px 0 0; }
+      .building-wrap { width: min(100vw, 60vh); opacity: .88; }
 
-      .brand {
-        font-size: 14px;
-        letter-spacing: .24em;
-      }
-
-      h1 {
-        font-size: clamp(42px, 12vw, 62px);
-        line-height: .94;
-        letter-spacing: -.05em;
-        max-width: 100%;
-        word-break: break-word;
-      }
-
-      .lead {
-        max-width: 100%;
-        font-size: 14px;
-        line-height: 1.48;
-        color: rgba(255,255,255,.84);
-      }
-
-      .card-line {
-        width: 42px;
-        height: 4px;
-        margin-bottom: 18px;
-        border-radius: 999px;
-        background: rgba(255,255,255,.92);
-      }
-
-      .card-actions {
-        gap: 10px;
-      }
-
-      .btn {
-        height: 54px;
-        font-size: 11px;
-        letter-spacing: .08em;
-      }
-
-      .building-wrap:hover {
-        transform: none;
-      }
-
-      .topbar { height: 64px; }
-      .brand { font-size: 14px; letter-spacing: .32em; }
-      .hero { padding-top: 64px; min-height: 100svh; }
-      .building-stage { inset: 64px 0 0; align-items: flex-end; }
-      .building-wrap {
-        width: min(100vw, 60vh);
-        aspect-ratio: 942 / 1004;
-        height: auto;
-        opacity: .88;
-      }
       .visual-card {
         top: 78px;
         left: 12px;
@@ -505,28 +345,35 @@
         min-height: 0;
         padding: 20px 18px 22px;
         border-radius: 28px;
-        background: linear-gradient(180deg, rgba(18,18,20,.62) 0%, rgba(24,24,28,.46) 100%) !important;
-        border: 1px solid rgba(255,255,255,.08) !important;
-        box-shadow: 0 18px 60px rgba(0,0,0,.18) !important;
-        backdrop-filter: blur(18px);
-        -webkit-backdrop-filter: blur(18px);
+        background: linear-gradient(180deg, rgba(18,18,20,.62) 0%, rgba(24,24,28,.46) 100%);
       }
-      .lead { font-size: 17px; }
-      .card-actions { margin-top: 30px; }
-      .btn { min-width: 100%; }
-      .floor-info {
-        display: block;
-        right: 14px;
-        left: 14px;
-        bottom: 12px;
-        min-width: 0;
-        padding: 16px 18px;
-        border-radius: 18px;
+
+      .card-line { width: 42px; height: 4px; margin-bottom: 18px; }
+      .kicker { font-size: 11px; letter-spacing: .16em; }
+      h1 { font-size: clamp(42px, 12vw, 62px); line-height: .94; letter-spacing: -.05em; word-break: break-word; }
+      .lead { font-size: 14px; line-height: 1.48; }
+
+      .floor-zone[data-floor="5"] { --y: 19.8%; --h: 4.6%; }
+      .floor-zone[data-floor="4"] { --y: 32.4%; --h: 4.9%; }
+      .floor-zone[data-floor="3"] { --y: 45.1%; --h: 4.9%; }
+      .floor-zone[data-floor="2"] { --y: 57.8%; --h: 4.9%; }
+      .floor-zone[data-floor="1"] { --y: 69.2%; --h: 6.2%; }
+
+      .floor-label {
+        right: auto;
+        left: 50%;
+        top: -12px;
+        transform: translateX(-50%);
+        font-size: 10px;
+        padding: 6px 10px;
       }
-      .floor-map {
-        display: block;
-        inset: 0;
+
+      .floor-zone.is-active .floor-label,
+      .floor-zone:active .floor-label {
+        opacity: 1;
+        transform: translateX(-50%) translateY(-6px);
       }
+
       .apartment-row { grid-template-columns: 1fr; }
     }
   </style>
@@ -549,20 +396,14 @@
     <section class="hero" aria-label="Визуальный выбор этажа">
       <div class="building-stage">
         <div class="building-wrap">
-          <img
-            class="building-img"
-            src="https://raw.githubusercontent.com/oczernyszenko/Torrevieja/main/fasad.png"
-            alt="Monteagudo — новый жилой проект на Коста-Бланке"
-            loading="eager"
-            fetchpriority="high"
-          />
+          <img class="building-img" src="https://raw.githubusercontent.com/oczernyszenko/Torrevieja/main/fasad.png" alt="Monteagudo — новый жилой проект на Коста-Бланке" loading="eager" fetchpriority="high" />
 
           <div class="floor-map" aria-label="Выбор этажа на фасаде">
-            <button class="floor-zone" data-floor="5" style="--x: 1%; --y: 17.2%; --w: 98%; --h: 8.1%;"><span class="floor-label">Этаж 5</span></button>
-            <button class="floor-zone" data-floor="4" style="--x: 1%; --y: 29.2%; --w: 98%; --h: 8.5%;"><span class="floor-label">Этаж 4</span></button>
-            <button class="floor-zone" data-floor="3" style="--x: 1%; --y: 41.4%; --w: 98%; --h: 8.5%;"><span class="floor-label">Этаж 3</span></button>
-            <button class="floor-zone" data-floor="2" style="--x: 1%; --y: 53.7%; --w: 98%; --h: 8.5%;"><span class="floor-label">Этаж 2</span></button>
-            <button class="floor-zone" data-floor="1" style="--x: 1%; --y: 66.1%; --w: 98%; --h: 8.4%;"><span class="floor-label">Этаж 1</span></button>
+            <button class="floor-zone" data-floor="5" style="--x: 1%; --y: 18.6%; --w: 98%; --h: 5.6%;"><span class="floor-label">Этаж 5</span></button>
+            <button class="floor-zone" data-floor="4" style="--x: 1%; --y: 31.4%; --w: 98%; --h: 5.9%;"><span class="floor-label">Этаж 4</span></button>
+            <button class="floor-zone" data-floor="3" style="--x: 1%; --y: 43.9%; --w: 98%; --h: 5.9%;"><span class="floor-label">Этаж 3</span></button>
+            <button class="floor-zone" data-floor="2" style="--x: 1%; --y: 56.2%; --w: 98%; --h: 5.9%;"><span class="floor-label">Этаж 2</span></button>
+            <button class="floor-zone" data-floor="1" style="--x: 1%; --y: 66.9%; --w: 98%; --h: 7.6%;"><span class="floor-label">Этаж 1</span></button>
           </div>
         </div>
       </div>
@@ -571,18 +412,8 @@
         <div class="card-line"></div>
         <p class="kicker">Навигация</p>
         <h1>Monteagudo</h1>
-        <p class="lead">Современный жилой комплекс на Коста-Бланке с квартирами, террасами и панорамными видами.</p>
-        <div class="card-actions">
-          <button class="btn btn-dark" type="button" onclick="document.querySelector('.building-wrap').scrollIntoView({behavior:'smooth'});">Визуальный выбор</button>
-          <a class="btn" href="#apartments">Плановый выбор</a>
-        </div>
+        <p class="lead">Наведите на этаж</p>
       </div>
-
-      <aside class="floor-info" id="floorInfo">
-        <small>Выбранный этаж</small>
-        <strong>Наведите на этаж</strong>
-        <p>При наведении подсвечивается выбранный этаж дома.</p>
-      </aside>
     </section>
 
     <section class="section" id="apartments">
@@ -600,40 +431,38 @@
   </main>
 
   <script>
-    const floorData = {
-      "1": { title: "Этаж 1", text: "2 спальни · 98 м² · от 104 000 €" },
-      "2": { title: "Этаж 2", text: "2 спальни · 104 м² · от 118 000 €" },
-      "3": { title: "Этаж 3", text: "3 спальни · 122 м² · от 132 000 €" },
-      "4": { title: "Этаж 4", text: "3 спальни · 138 м² · от 148 000 €" },
-      "5": { title: "Этаж 5", text: "Пентхаус · 156 м² · от 169 000 €" }
-    };
+    document.addEventListener('DOMContentLoaded', () => {
+      const floorData = {
+        "1": { title: "Этаж 1", text: "2 спальни · 98 м² · от 104 000 €" },
+        "2": { title: "Этаж 2", text: "2 спальни · 104 м² · от 118 000 €" },
+        "3": { title: "Этаж 3", text: "3 спальни · 122 м² · от 132 000 €" },
+        "4": { title: "Этаж 4", text: "3 спальни · 138 м² · от 148 000 €" },
+        "5": { title: "Этаж 5", text: "Пентхаус · 156 м² · от 169 000 €" }
+      };
 
-    const zones = document.querySelectorAll(".floor-zone");
-    const info = document.getElementById("floorInfo");
-    const rows = document.querySelectorAll("[data-floor-row]");
+      const zones = Array.from(document.querySelectorAll('.floor-zone'));
+      const rows = Array.from(document.querySelectorAll('[data-floor-row]'));
+      const apartmentsSection = document.getElementById('apartments');
 
-    function setActiveFloor(floor) {
-      const item = floorData[floor];
-      if (!item) return;
+      function setActiveFloor(floor) {
+        if (!floorData[floor]) return;
+        zones.forEach(zone => zone.classList.toggle('is-active', zone.dataset.floor === floor));
+        rows.forEach(row => row.classList.toggle('is-active', row.dataset.floorRow === floor));
+      }
 
-      zones.forEach(zone => zone.classList.toggle("is-active", zone.dataset.floor === floor));
-
-      rows.forEach(row => {
-        const active = row.dataset.floorRow === floor;
-        row.style.borderColor = active ? "rgba(197,163,90,.85)" : "rgba(255,255,255,.12)";
-        row.style.background = active ? "rgba(197,163,90,.16)" : "rgba(255,255,255,.04)";
+      zones.forEach(zone => {
+        zone.addEventListener('mouseenter', () => setActiveFloor(zone.dataset.floor));
+        zone.addEventListener('focus', () => setActiveFloor(zone.dataset.floor));
+        zone.addEventListener('touchstart', () => setActiveFloor(zone.dataset.floor), { passive: true });
+        zone.addEventListener('click', () => {
+          setActiveFloor(zone.dataset.floor);
+          if (apartmentsSection) apartmentsSection.scrollIntoView({ behavior: 'smooth' });
+        });
       });
 
-      info.innerHTML = `<small>Выбранный этаж</small><strong>${item.title}</strong><p>${item.text}</p>`;
-    }
-
-    zones.forEach(zone => {
-      zone.addEventListener("mouseenter", () => setActiveFloor(zone.dataset.floor));
-      zone.addEventListener("focus", () => setActiveFloor(zone.dataset.floor));
-      zone.addEventListener("click", () => {
-        setActiveFloor(zone.dataset.floor);
-        document.getElementById("apartments")?.scrollIntoView({ behavior: "smooth" });
-      });
+      console.assert(zones.length === 5, 'Должно быть 5 зон этажей');
+      console.assert(rows.length === 5, 'Должно быть 5 строк квартир');
+      console.assert(Boolean(apartmentsSection), 'Секция apartments должна существовать');
     });
   </script>
 </body>
